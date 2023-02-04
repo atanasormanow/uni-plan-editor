@@ -1,15 +1,7 @@
 <?php
+require_once('../database/connection.php');
+require_once('../database/queries.php' );
 // header("Access-Control-Allow-Origin: *");
-
-// Connect to MySQL server
-$servername = "localhost";
-$username = "webcourse";
-$password = "";
-$db = new mysqli($servername, $username, $password);
-
-if (!$db) {
-  die("Connection failed: " . mysqli_connect_error());
-}
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
@@ -33,23 +25,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
 // Handle GET request to receive a list of the databases
 function handleGetRequest()
 {
-  global $db;
+  $db = getDatabaseConnection();
   $data = json_decode(file_get_contents("php://input"), true);
-  // get migration by name
   if (isset($data['migration'])) {
-    // escape to avoid SQL injection
+    // escape parameters to avoid injection
     $name = $db->real_escape_string($data['migration']);
-    $db->query("USE migration_manager");
-    $migration = $db->query("SELECT * FROM migrations WHERE name='$name'")->fetch_assoc();
-    echo json_encode($migration);
-  // list all databases
+    DatabaseQueries::getMigration($name);
   } else {
-    $result = $db->query("SHOW DATABASES");
-    $databases = array();
-    while ($row = $result->fetch_assoc()) {
-      $databases[] = $row['Database'];
-    }
-    echo json_encode($databases);
+    DatabaseQueries::getAllDatabases();
   }
 }
 
@@ -57,30 +40,35 @@ function handleGetRequest()
 // TODO: create migration
 function handlePostRequest()
 {
-  global $db, $username;
+  $db = getDatabaseConnection();
   $data = json_decode(file_get_contents("php://input"), true);
-  $name = $db->real_escape_string($data['name']);
-  // prefix database with username to have access rights
-  $db->query("CREATE DATABASE " . $username . "_$name");
-  echo "Database created";
+  if (isset($data['name'])) {
+    $name = $db->real_escape_string($data['name']);
+    DatabaseQueries::createDatabase($name);
+  } else {
+    throw new PDOException("Request parameter is missing!");
+  }
 }
 
 // Handle PUT request to execute a given SQL query on a particular database
 // TODO: should be able to run up/down for some migration
 function handlePutRequest()
 {
-  global $db;
+  // global $db;
   // $data = json_decode(file_get_contents("php://input"), true);
   // $db->query("USE " . $data->database);
   // $db->query($data->query);
-  echo "Query executed";
 }
 
 // Handle DELETE request to delete a database
 function handleDeleteRequest()
 {
-  global $db, $username;
+  $db = getDatabaseConnection();
   $data = json_decode(file_get_contents("php://input"), true);
-  $db->query("DROP DATABASE " . $username . "_" . $data['name']);
-  echo "Database deleted";
+  if (isset($data['name'])) {
+    $name = $db->real_escape_string($data['name']);
+    DatabaseQueries::deleteDatabase($name);
+  } else {
+    throw new PDOException("Request parameter is missing!");
+  }
 }
