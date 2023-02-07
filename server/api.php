@@ -25,12 +25,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 // Handle GET request to receive a list of the databases
 function handleGetRequest()
 {
-  $db = getDatabaseConnection();
   $data = json_decode(file_get_contents("php://input"), true);
   if (isset($data['migration'])) {
-    // escape parameters to avoid injection
-    $name = $db->real_escape_string($data['migration']);
-    DatabaseQueries::getMigration($name);
+    DatabaseQueries::getMigration($data['migration']);
   } else {
     DatabaseQueries::getAllDatabases();
   }
@@ -40,11 +37,9 @@ function handleGetRequest()
 // TODO: create migration
 function handlePostRequest()
 {
-  $db = getDatabaseConnection();
   $data = json_decode(file_get_contents("php://input"), true);
   if (isset($data['name'])) {
-    $name = $db->real_escape_string($data['name']);
-    DatabaseQueries::createDatabase($name);
+    DatabaseQueries::createDatabase($data['name']);
   } else {
     throw new PDOException("Request parameter is missing!");
   }
@@ -63,11 +58,9 @@ function handlePutRequest()
 // Handle DELETE request to delete a database
 function handleDeleteRequest()
 {
-  $db = getDatabaseConnection();
   $data = json_decode(file_get_contents("php://input"), true);
   if (isset($data['name'])) {
-    $name = $db->real_escape_string($data['name']);
-    DatabaseQueries::deleteDatabase($name);
+    DatabaseQueries::deleteDatabase($data['name']);
   } else {
     throw new PDOException("Request parameter is missing!");
   }

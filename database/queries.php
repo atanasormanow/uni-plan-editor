@@ -1,5 +1,5 @@
 <?php
-require_once('../database/connection.php' );
+require_once('../database/connection.php');
 
 // TODO: Maybe import this from somewhere instead
 $username = "webcourse";
@@ -18,11 +18,14 @@ class DatabaseQueries
     return json_encode($databases);
   }
 
-  public static function getMigration($name)
+  public static function getMigration($migration_name)
   {
     $db = getDatabaseConnection();
     $db->query("USE migration_manager");
-    $migration = $db->query("SELECT * FROM migrations WHERE name='$name'")->fetch_assoc();
+    $query = $db->prepare("SELECT * FROM migrations WHERE name=?");
+    $query->bind_param("s", $migration_name);
+    $query->execute();
+    $migration = $query->get_result()->fetch_assoc();
     echo json_encode($migration);
   }
 
@@ -30,12 +33,29 @@ class DatabaseQueries
   {
     global $username;
     $db = getDatabaseConnection();
-    $db->query("CREATE DATABASE " . $username . "_$name");
+    $query = $db->prepare("CREATE DATABASE ?_?");
+    $query->bind_param("ss", $username, $name);
+    $query->execute();
   }
 
-  public static function deleteDatabase($name) {
+  public static function createMigration($migration_name, $db_name, $up, $down)
+  {
+    $db = getDatabaseConnection();
+    $db->query("USE migration_manager");
+    $query = $db->prepare("
+    INSERT INTO migrations (name, db_name, up, down)
+    VALUES (?, ?, ?, ?)
+    ");
+    $query->bind_param("ssss", $migration_name, $db_name, $up, $down);
+    $query->execute();
+  }
+
+  public static function deleteDatabase($name)
+  {
     global $username;
     $db = getDatabaseConnection();
-    $db->query("DROP DATABASE " . $username . "_$name");
+    $query = $db->prepare("DROP DATABASE ?_?");
+    $query->bind_param("ss", $username, $name);
+    $query->execute();
   }
 }
