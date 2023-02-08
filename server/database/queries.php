@@ -1,14 +1,13 @@
 <?php
-require_once('./database/connection.php');
-
-// TODO: Maybe import this from somewhere instead
-$username = "webcourse";
+require_once(__DIR__ . '/connection.php');
+require_once(__DIR__ . '/../config.php');
 
 class DatabaseQueries
 {
   // TODO: Exclude the migrations db or changer user perms
   public static function getAllDatabases()
   {
+    // TODO? get their tables as well
     $db = getDatabaseConnection();
     $result = $db->query("SHOW DATABASES");
     $databases = array();
@@ -31,7 +30,7 @@ class DatabaseQueries
 
   public static function createDatabase($name)
   {
-    global $username;
+    $username = Config::$username;
     $db = getDatabaseConnection();
     $query = $db->prepare("CREATE DATABASE ?_?");
     $query->bind_param("ss", $username, $name);
@@ -52,7 +51,7 @@ class DatabaseQueries
 
   public static function deleteDatabase($name)
   {
-    global $username;
+    $username = Config::$username;
     $db = getDatabaseConnection();
     $query = $db->prepare("DROP DATABASE ?_?");
     $query->bind_param("ss", $username, $name);

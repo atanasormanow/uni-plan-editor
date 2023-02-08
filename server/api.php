@@ -1,6 +1,6 @@
 <?php
-require_once('./database/connection.php');
-require_once('./database/queries.php' );
+require_once(__DIR__ . '/database/connection.php');
+require_once(__DIR__ . '/database/queries.php' );
 // header("Access-Control-Allow-Origin: *");
 
 switch ($_SERVER['REQUEST_METHOD']) {

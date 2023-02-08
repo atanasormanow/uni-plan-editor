@@ -1,13 +1,9 @@
 <?php
-
-$host = "localhost";
-$username = "webcourse";
-$password = "webtech2223";
+require_once(__DIR__ . '/../config.php');
 
 function getDatabaseConnection()
 {
-  global $host, $username, $password;
-  $db = new mysqli($host, $username, $password);
+  $db = new mysqli(Config::$host, Config::$username, Config::$password);
 
   if (!$db) {
     die("Connection failed: " . mysqli_connect_error());
