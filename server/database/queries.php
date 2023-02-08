@@ -6,6 +6,7 @@ $username = "webcourse";
 
 class DatabaseQueries
 {
+  // TODO: Exclude the migrations db or changer user perms
   public static function getAllDatabases()
   {
     $db = getDatabaseConnection();
