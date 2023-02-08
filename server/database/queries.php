@@ -1,5 +1,5 @@
 <?php
-require_once('../database/connection.php');
+require_once('./database/connection.php');
 
 // TODO: Maybe import this from somewhere instead
 $username = "webcourse";
@@ -25,7 +25,7 @@ class DatabaseQueries
     $query->bind_param("s", $migration_name);
     $query->execute();
     $migration = $query->get_result()->fetch_assoc();
-    echo json_encode($migration);
+    return json_encode($migration);
   }
 
   public static function createDatabase($name)

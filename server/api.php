@@ -1,23 +1,23 @@
 <?php
-require_once('../database/connection.php');
-require_once('../database/queries.php' );
+require_once('./database/connection.php');
+require_once('./database/queries.php' );
 // header("Access-Control-Allow-Origin: *");
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
-    handleGetRequest();
+    echo handleGetRequest();
     break;
   case 'POST':
-    handlePostRequest();
+    echo handlePostRequest();
     break;
   case 'PUT':
-    handlePutRequest();
+    echo handlePutRequest();
     break;
   case 'DELETE':
-    handleDeleteRequest();
+    echo handleDeleteRequest();
     break;
   default:
-    http_response_code(405);
+    echo http_response_code(405);
     echo "No such method";
     break;
 }
@@ -27,9 +27,9 @@ function handleGetRequest()
 {
   $data = json_decode(file_get_contents("php://input"), true);
   if (isset($data['migration'])) {
-    DatabaseQueries::getMigration($data['migration']);
+    return DatabaseQueries::getMigration($data['migration']);
   } else {
-    DatabaseQueries::getAllDatabases();
+    return DatabaseQueries::getAllDatabases();
   }
 }
 
@@ -39,7 +39,7 @@ function handlePostRequest()
 {
   $data = json_decode(file_get_contents("php://input"), true);
   if (isset($data['name'])) {
-    DatabaseQueries::createDatabase($data['name']);
+    return DatabaseQueries::createDatabase($data['name']);
   } else {
     throw new PDOException("Request parameter is missing!");
   }
@@ -60,7 +60,7 @@ function handleDeleteRequest()
 {
   $data = json_decode(file_get_contents("php://input"), true);
   if (isset($data['name'])) {
-    DatabaseQueries::deleteDatabase($data['name']);
+    return DatabaseQueries::deleteDatabase($data['name']);
   } else {
     throw new PDOException("Request parameter is missing!");
   }
