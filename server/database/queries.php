@@ -8,7 +8,6 @@ class DatabaseQueries
 {
   public static function getAllDatabases()
   {
-    // TODO: maybe do this at top level somehow
     $db = getDatabaseConnection();
     $result = $db->query("SHOW DATABASES");
     $databases = array();

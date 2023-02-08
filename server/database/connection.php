@@ -2,7 +2,7 @@
 
 $host = "localhost";
 $username = "webcourse";
-$password = "";
+$password = "webtech2223";
 
 function getDatabaseConnection()
 {
