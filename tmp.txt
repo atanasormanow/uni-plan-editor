@@ -1,0 +1,10 @@
+TODO: use local storage to display username info when logged in
+      (instead of login/register buttons)
+
+if (localStorage.getItem('username')) {
+  showUsername();
+} else {
+  showLoginForm();
+}
+
+TODO: abstract code from login and register
