@@ -8,3 +8,9 @@ if (localStorage.getItem('username')) {
 }
 
 TODO: abstract code from login and register
+
+
+NOTE: A function that console.log()'s from the js
+function console_log($output, $with_script_tags = true) {
+  $js_code = 'console.log('.json_encode($output, JSON_HEX_TAG) . ');';
+}

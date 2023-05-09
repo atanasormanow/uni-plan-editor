@@ -2,37 +2,24 @@
 class User
 {
   private $userId;
-  private $firstName;
-  private $lastName;
+  private $username;
   private $password;
-  private $status;
 
-  public function __construct($firstName, $lastName, $password, $status)
+  public function __construct($userId, $username, $password)
   {
-    $this->firstName = $firstName;
-    $this->lastName = $lastName;
+    $this->userId = $userId;
+    $this->username = $username;
     $this->password = $password;
-    $this->status = $status;
   }
 
-  public function getFirstName()
+  public function getUsername()
   {
-    return $this->firstName;
+    return $this->username;
   }
 
-  public function setFirstName($firstName)
+  public function setUsername($username)
   {
-    $this->firstName = $firstName;
-  }
-
-  public function getLastName()
-  {
-    return $this->lastName;
-  }
-
-  public function setLastName($lastName)
-  {
-    $this->lastName = $lastName;
+    return $this->username = $username;
   }
 
   public function getPassword()
@@ -43,16 +30,6 @@ class User
   public function setPassword($password)
   {
     $this->password = $password;
-  }
-
-  public function getStatus()
-  {
-    return $this->status;
-  }
-
-  public function setStatus($status)
-  {
-    $this->status = $status;
   }
 
   public function getUserId()

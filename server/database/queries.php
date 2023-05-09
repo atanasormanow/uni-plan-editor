@@ -1,6 +1,5 @@
 <?php
 require_once(__DIR__ . '/connection.php');
-require_once(__DIR__ . '/../config.php');
 
 class Queries
 {
@@ -9,7 +8,7 @@ class Queries
     $db = getDatabaseConnection();
     $username = $db->real_escape_string($username);
     $password = $db->real_escape_string($password);
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
     $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
     if ($db->query($sql)) {
@@ -36,6 +35,23 @@ class Queries
       } else {
         return false; // Return false if the password is incorrect
       }
+    } else {
+      return false; // Return false if the user does not exist
+    }
+  }
+
+  public static function getUserByUsername($username)
+  {
+    $db = getDatabaseConnection();
+    $username = $db->real_escape_string($username);
+
+    $sql = "SELECT id, username, password FROM users WHERE username = '$username'";
+    $result = $db->query($sql);
+
+    if (mysqli_num_rows($result) > 0) {
+      // TODO: construct a model
+      $row = mysqli_fetch_assoc($result); // returns the first row in the result?
+      return $row;
     } else {
       return false; // Return false if the user does not exist
     }
@@ -78,4 +94,12 @@ class Queries
 
     (bool)$db->query($sql);
   }
+}
+
+function debug_to_console($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
