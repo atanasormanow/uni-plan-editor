@@ -2,8 +2,7 @@
 class Config
 {
   public static $host = "localhost";
-  public static $servername = "localhost";
-  public static $username = "webcourse";
-  public static $password = "webtech2223";
-  public static $type = "mysql";
+  public static $username = "uni_admin";
+  public static $password = "password";
+  public static $database = "uni_plans";
 }

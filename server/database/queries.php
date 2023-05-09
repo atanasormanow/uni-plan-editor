@@ -2,59 +2,80 @@
 require_once(__DIR__ . '/connection.php');
 require_once(__DIR__ . '/../config.php');
 
-class DatabaseQueries
+class Queries
 {
-  // TODO: Exclude the migrations db or changer user perms
-  public static function getAllDatabases()
+  public static function createUser($username, $password)
   {
-    // TODO? get their tables as well
     $db = getDatabaseConnection();
-    $result = $db->query("SHOW DATABASES");
-    $databases = array();
-    while ($row = $result->fetch_assoc()) {
-      $databases[] = $row['Database'];
+    $username = $db->real_escape_string($username);
+    $password = $db->real_escape_string($password);
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
+    if ($db->query($sql)) {
+      return $db->insert_id; // Get the ID of the newly created user
+    } else {
+      return false;
     }
-    return json_encode($databases);
   }
 
-  public static function getMigration($migration_name)
+  public static function verifyUser($username, $password)
   {
     $db = getDatabaseConnection();
-    $db->query("USE migration_manager");
-    $query = $db->prepare("SELECT * FROM migrations WHERE name=?");
-    $query->bind_param("s", $migration_name);
-    $query->execute();
-    $migration = $query->get_result()->fetch_assoc();
-    return json_encode($migration);
+    $username = $db->real_escape_string($username);
+    $password = $db->real_escape_string($password);
+
+    $sql = "SELECT id, password FROM users WHERE username = '$username'";
+    $result = $db->query($sql);
+
+    if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_assoc($result);
+
+      if (password_verify($password, $row['password'])) {
+        return $row['id']; // Return the user's ID if the password is correct
+      } else {
+        return false; // Return false if the password is incorrect
+      }
+    } else {
+      return false; // Return false if the user does not exist
+    }
   }
 
-  public static function createDatabase($name)
+  public static function getAllPlans()
   {
-    $username = Config::$username;
     $db = getDatabaseConnection();
-    $query = $db->prepare("CREATE DATABASE ?_?");
-    $query->bind_param("ss", $username, $name);
-    $query->execute();
+    $result = $db->query("SELECT * FROM subject_plans");
+    $rows = array();
+    while ($row = $result->fetch_assoc()) {
+      $rows[] = $row;
+    }
+    return json_encode($rows);
   }
 
-  public static function createMigration($migration_name, $db_name, $up, $down)
+  public static function createPlan($name, $description, $owner)
   {
     $db = getDatabaseConnection();
-    $db->query("USE migration_manager");
-    $query = $db->prepare("
-    INSERT INTO migrations (name, db_name, up, down)
-    VALUES (?, ?, ?, ?)
-    ");
-    $query->bind_param("ssss", $migration_name, $db_name, $up, $down);
-    $query->execute();
+    $name = $db->real_escape_string($name);
+    $description = $db->real_escape_string($description);
+    $owner = $db->real_escape_string($owner);
+
+    $query = "INSERT INTO subject_plans (name, description, owner) VALUES ('$name', '$description', '$owner')";
+
+    if ($db->query($query)) {
+      $plan_id = $db->insert_id;
+      return $plan_id;
+    } else {
+      return false;
+    }
   }
 
-  public static function deleteDatabase($name)
+  public static function deletePlanById($id)
   {
-    $username = Config::$username;
     $db = getDatabaseConnection();
-    $query = $db->prepare("DROP DATABASE ?_?");
-    $query->bind_param("ss", $username, $name);
-    $query->execute();
+    $id = $db->real_escape_string($id);
+
+    $sql = "DELETE FROM subject_plans WHERE id = '$id'";
+
+    (bool)$db->query($sql);
   }
 }
