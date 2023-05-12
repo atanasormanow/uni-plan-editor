@@ -4,14 +4,14 @@ class Plan
   private $planId;
   private $name;
   private $description;
-  private $owner;
+  private $owner_id;
 
-  public function __construct($planId, $name, $description, $owner)
+  public function __construct($planId, $name, $description, $owner_id)
   {
     $this->planId = $planId;
     $this->name = $name;
     $this->description = $description;
-    $this->owner = $owner;
+    $this->owner_id = $owner_id;
   }
 
   public function getPlanId()
@@ -36,12 +36,12 @@ class Plan
 
   public function getOwner()
   {
-    return $this->owner;
+    return $this->owner_id;
   }
 
-  public function setOwner($owner)
+  public function setOwner($owner_id)
   {
-    $this->owner = $owner;
+    $this->owner_id = $owner_id;
   }
 
   public function getDescription()

@@ -7,9 +7,10 @@ window.onload = () => {
   planForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const title = registerForm[0].value;
-    const owner = registerForm[1].value;
-    const description = registerForm[2].value;
+    const name = planForm[0].value;
+    // TODO: get owner by sending the current user's username, then find the id
+    const owner = planForm[1].value;
+    const description = planForm[2].value;
 
     fetch(
       createPlanURL,
@@ -19,7 +20,7 @@ window.onload = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          title,
+          name,
           owner,
           description
         })

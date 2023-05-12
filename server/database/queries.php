@@ -1,7 +1,9 @@
 <?php
 require_once(__DIR__ . '/connection.php');
 require_once(__DIR__ . '/../model/user.php');
+require_once(__DIR__ . '/../model/plan.php');
 
+// NOTE: This is used like a module of functions
 class Queries
 {
   public static function createUser($username, $password)
@@ -66,17 +68,24 @@ class Queries
     return json_encode($rows);
   }
 
-  public static function createPlan($name, $owner, $description)
+  public static function createPlan($name, $username, $description)
   {
     $db = getDatabaseConnection();
     $name = $db->real_escape_string($name);
     $description = $db->real_escape_string($description);
-    $owner = $db->real_escape_string($owner);
+    $username = $db->real_escape_string($username);
 
-    $query = "INSERT INTO subject_plans (name, description, owner) VALUES ('$name', '$description', '$owner')";
+    $owner = Queries::getUserByUsername($username);
+    if (!$owner) {
+      return false;
+    }
+
+    $owner_id = $owner->getUserId();
+
+    $query = "INSERT INTO subject_plans (name, description, owner) VALUES ('$name', '$description', '$owner_id')";
 
     if ($db->query($query)) {
-      return new Plan($db->insert_id, $name, $description, $owner);
+      return new Plan($db->insert_id, $name, $description, $owner_id);
     } else {
       return false;
     }
