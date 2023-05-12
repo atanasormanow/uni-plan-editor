@@ -76,8 +76,7 @@ class Queries
     $query = "INSERT INTO subject_plans (name, description, owner) VALUES ('$name', '$description', '$owner')";
 
     if ($db->query($query)) {
-      $plan_id = $db->insert_id;
-      return $plan_id;
+      return new Plan($db->insert_id, $name, $description, $owner);
     } else {
       return false;
     }
