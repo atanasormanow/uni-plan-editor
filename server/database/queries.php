@@ -66,7 +66,7 @@ class Queries
     return json_encode($rows);
   }
 
-  public static function createPlan($name, $description, $owner)
+  public static function createPlan($name, $owner, $description)
   {
     $db = getDatabaseConnection();
     $name = $db->real_escape_string($name);

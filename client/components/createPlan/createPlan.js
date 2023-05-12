@@ -1,40 +1,41 @@
+// TODO: put the url prefix in some central place (like a file with constants)
+const createPlanURL = 'http://localhost/myapp/server/controller/create_plan.php';
+
 window.onload = () => {
-  document.getElementById("planForm").addEventListener("submit", function(event) {
-    // TODO: read and refine based on register.js
+  const planForm = document.getElementById('plan-form');
+
+  planForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    // Get form values
-    var title = document.getElementById("title").value;
-    var owner = document.getElementById("owner").value;
-    var description = document.getElementById("description").value;
+    const title = registerForm[0].value;
+    const owner = registerForm[1].value;
+    const description = registerForm[2].value;
 
-    // Create plan object
-    var plan = {
-      title: title,
-      owner: owner,
-      description: description
-    };
-
-    // Send POST request
-    fetch("YOUR_POST_URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(plan)
-    })
-      .then(function(response) {
-        if (response.ok) {
-          console.log("Plan created successfully");
-          // Additional actions after plan creation
-        } else {
-          console.error("An error occurred while creating the plan");
-          // Additional error handling
-        }
+    fetch(
+      createPlanURL,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          owner,
+          description
+        })
       })
-      .catch(function(error) {
-        console.error("An error occurred:", error);
-        // Additional error handling
+      .then(response => response.json())
+      // TODO: do something on success, maybe redirect to "allPlans"
+      // .then(data => {
+      //   if (data.success) {
+      //     localStorage.setItem('username', username);
+      //   } else {
+      //     console.error("Failed to register user")
+      //     // loginErrorMsg.textContent = data.message;
+      //   }
+      // })
+      .catch(error => {
+        console.error('Error:', error);
       });
   });
 }

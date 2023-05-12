@@ -1,50 +1,26 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Create Plan</title>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <meta charset="UTF-8">
+  <script src="createPlan.js"></script>
+  <link rel="stylesheet" href="createPlan.css" />
 </head>
+
 <body>
-  <form id="planForm">
+  <form id="plan-form">
     <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required><br><br>
+    <input type="text" id="title" name="title" required>
 
     <label for="owner">Owner:</label>
-    <input type="text" id="owner" name="owner" required><br><br>
+    <input type="text" id="owner" name="owner" required>
 
     <label for="description">Description:</label>
-    <textarea id="description" name="description" required></textarea><br><br>
+    <textarea id="description" name="description" required></textarea>
 
-    <input type="submit" value="Create Plan">
+    <button type="submit">Create Plan</button>
   </form>
-
-  <script>
-    document.getElementById("planForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      // Get form values
-      var title = document.getElementById("title").value;
-      var owner = document.getElementById("owner").value;
-      var description = document.getElementById("description").value;
-
-      // Create plan object
-      var plan = {
-        title: title,
-        owner: owner,
-        description: description
-      };
-
-      // Send POST request
-      axios.post("YOUR_POST_URL", plan)
-        .then(function(response) {
-          console.log("Plan created successfully:", response.data);
-          // Additional actions after plan creation
-        })
-        .catch(function(error) {
-          console.error("An error occurred:", error);
-          // Additional error handling
-        });
-    });
-  </script>
 </body>
+
 </html>
