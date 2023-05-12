@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/connection.php');
+require_once(__DIR__ . '/../model/user.php');
 
 class Queries
 {
@@ -12,7 +13,8 @@ class Queries
 
     $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
     if ($db->query($sql)) {
-      return $db->insert_id; // Get the ID of the newly created user
+      // Get the ID of the newly created user
+      return new User($db->insert_id, $username, $password);
     } else {
       return false;
     }
@@ -30,11 +32,7 @@ class Queries
     if (mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
 
-      if (password_verify($password, $row['password'])) {
-        return $row['id']; // Return the user's ID if the password is correct
-      } else {
-        return false; // Return false if the password is incorrect
-      }
+      (bool)password_verify($password, $row['password']);
     } else {
       return false; // Return false if the user does not exist
     }
@@ -49,9 +47,9 @@ class Queries
     $result = $db->query($sql);
 
     if (mysqli_num_rows($result) > 0) {
-      // TODO: construct a model
       $row = mysqli_fetch_assoc($result); // returns the first row in the result?
-      return $row;
+      // The password should be hasshed here
+      return new User($row['id'], $row['username'], $row['password']);
     } else {
       return false; // Return false if the user does not exist
     }
@@ -94,12 +92,4 @@ class Queries
 
     (bool)$db->query($sql);
   }
-}
-
-function debug_to_console($data) {
-    $output = $data;
-    if (is_array($output))
-        $output = implode(',', $output);
-
-    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }

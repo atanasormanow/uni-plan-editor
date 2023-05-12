@@ -8,22 +8,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $user_data['username'];
   $password = $user_data['password'];
 
-  if (!Queries::verifyUser($username, $password)) {
+  if (Queries::verifyUser($username, $password)) {
     http_response_code(401);
-    exit(json_encode(["status" => "ERROR", "message" => "Wrong username or password"]));
+    exit(json_encode(["status" => "ERROR", "message" => "Username is taken"]));
   }
 
-  $user_db = Queries::getUserByUsername($username); // validation
-  $user_db_password = $user_db->getPassword(); // TODO
-
-  if (!password_verify($password, $user_db_password)) {
-    http_response_code(401);
-    exit(json_encode(["status" => "ERROR", "message" => "Грешен имейл или парола!"]));
+  $user = Queries::createUser($username, $password);
+  if ($user) {
+    session_start();
+    $_SESSION["user"] = $user;
   }
-
-  session_start();
-  $_SESSION["user"] = $user_db;
 
   http_response_code(200);
-  exit(json_encode(["status" => "SUCCESS", "message" => "Successfully logged in!", "user_id" => $user_db->getUserId()]));
+  // TODO: not sure if i need the id here
+  exit(json_encode(["status" => "SUCCESS", "message" => "Successfully registered", "user_id" => $user_id]));
 }

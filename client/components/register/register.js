@@ -1,5 +1,5 @@
-// TODO put somewhere else and import
-const server_url = 'http://localhost/myapp/server/api.php';
+// TODO: put the url prefix in some central place (like a file with constants)
+const register_url = 'http://localhost/myapp/server/controller/user_register.php';
 
 window.onload = () => {
   const registerForm = document.getElementById('register-form');
@@ -11,7 +11,7 @@ window.onload = () => {
     const password = registerForm[1].value;
 
     fetch(
-      server_url + '?' + new URLSearchParams({ action: 'register' }),
+      register_url,
       {
         method: 'POST',
         headers: {
