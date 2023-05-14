@@ -1,4 +1,4 @@
-const getAllPlansURL = 'http://localhost/myapp/server/controller/get_all_plans.php';
+import { SERVER_CONTROLLERS } from "../../modules/constants";
 
 window.onload = function() {
   document
@@ -7,7 +7,7 @@ window.onload = function() {
       window.location.replace('http://localhost/myapp/client/components/createPlan/createPlan.html');
     });
 
-  fetch(getAllPlansURL)
+  fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
     .then(response => response.json())
     .then(data => displayPlans(JSON.parse(data.data)))
     .catch(error => console.error('Error:', error));

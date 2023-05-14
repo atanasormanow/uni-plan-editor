@@ -1,5 +1,4 @@
-// TODO: put the url prefix in some central place (like a file with constants)
-const createPlanURL = 'http://localhost/myapp/server/controller/create_plan.php';
+import { SERVER_CONTROLLERS } from "../../modules/constants";
 
 window.onload = () => {
   const planForm = document.getElementById('plan-form');
@@ -13,7 +12,7 @@ window.onload = () => {
     const description = planForm[2].value;
 
     fetch(
-      createPlanURL,
+      SERVER_CONTROLLERS + 'create_plan.php',
       {
         method: 'POST',
         headers: {

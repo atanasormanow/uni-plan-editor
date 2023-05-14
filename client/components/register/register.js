@@ -1,5 +1,4 @@
-// TODO: put the url prefix in some central place (like a file with constants)
-const register_url = 'http://localhost/myapp/server/controller/user_register.php';
+import { SERVER_CONTROLLERS } from "../../modules/constants";
 
 window.onload = () => {
   const registerForm = document.getElementById('register-form');
@@ -11,7 +10,7 @@ window.onload = () => {
     const password = registerForm[1].value;
 
     fetch(
-      register_url,
+      SERVER_CONTROLLERS + 'user_register.php',
       {
         method: 'POST',
         headers: {

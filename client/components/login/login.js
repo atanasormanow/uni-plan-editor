@@ -1,5 +1,4 @@
-// TODO put somewhere else and import
-const server_url = 'localhost/myapp/server/api.php';
+import { SERVER_CONTROLLERS } from "../../modules/constants";
 
 window.onload = () => {
   const loginForm = document.getElementById('login-form');
@@ -10,16 +9,17 @@ window.onload = () => {
     const username = loginForm[0].value;
     const password = loginForm[1].value;
 
-    fetch(server_url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username,
-        password
+    fetch(SERVER_CONTROLLERS + 'user_login.php',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username,
+          password
+        })
       })
-    })
       .then(response => response.json())
       .then(data => {
         if (data.success) {
