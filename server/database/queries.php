@@ -6,6 +6,17 @@ require_once(__DIR__ . '/../model/plan.php');
 // NOTE: This is used like a module of functions
 class Queries
 {
+
+  public static function getAllUsers()
+  {
+    $db = getDatabaseConnection();
+
+    if ($db->query("SELECT * FROM users")) {
+    } else {
+      return false;
+    }
+  }
+
   public static function createUser($username, $password)
   {
     $db = getDatabaseConnection();
@@ -15,7 +26,6 @@ class Queries
 
     $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
     if ($db->query($sql)) {
-      // Get the ID of the newly created user
       return new User($db->insert_id, $username, $password);
     } else {
       return false;
@@ -60,7 +70,15 @@ class Queries
   public static function getAllPlans()
   {
     $db = getDatabaseConnection();
-    $result = $db->query("SELECT * FROM subject_plans");
+
+    $query = "
+    SELECT subject_plans.id, name, description, username AS owner
+    FROM `subject_plans`
+    LEFT JOIN `users`
+    ON subject_plans.owner = users.id;
+    ";
+
+    $result = $db->query($query);
     $rows = array();
     while ($row = $result->fetch_assoc()) {
       $rows[] = $row;

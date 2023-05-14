@@ -1,0 +1,18 @@
+#plans-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#plans-table th,
+#plans-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+#plans-table th {
+  background-color: #f0f0f0;
+}
+
+.plan-name {
+  font-weight: bold;
+}
