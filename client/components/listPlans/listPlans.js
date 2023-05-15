@@ -12,7 +12,6 @@ window.onload = function() {
 };
 
 function displayPlans(plans) {
-  console.log(plans);
   const plansList = document.getElementById('plans-list');
 
   plans.forEach((plan) => {
@@ -35,6 +34,20 @@ function displayPlans(plans) {
     ownerCell.textContent = plan.owner;
     row.appendChild(ownerCell);
 
+    const viewCell = document.createElement('td');
+    const anchor = document.createElement('a');
+    anchor.textContent = 'View';
+    anchor.href = SERVER_CONTROLLERS + 'get_pdf.php';
+    anchor.addEventListener('click', handleViewClick);
+    viewCell.appendChild(anchor);
+
+    row.appendChild(viewCell);
+
     plansList.appendChild(row);
   });
+}
+
+function handleViewClick(event) {
+  event.preventDefault();
+  console.log('TODO');
 }
