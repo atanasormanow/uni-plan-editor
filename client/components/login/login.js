@@ -1,5 +1,3 @@
-import { SERVER_CONTROLLERS } from "../../modules/constants";
-
 window.onload = () => {
   const loginForm = document.getElementById('login-form');
 

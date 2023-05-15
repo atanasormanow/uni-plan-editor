@@ -1,5 +1,3 @@
-import { SERVER_CONTROLLERS } from "../../modules/constants";
-
 window.onload = () => {
   const registerForm = document.getElementById('register-form');
 
