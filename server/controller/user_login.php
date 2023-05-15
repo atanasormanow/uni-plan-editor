@@ -17,5 +17,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $_SESSION["user"] = Queries::getUserByUsername($username);
 
   http_response_code(200);
-  exit(json_encode(["status" => "SUCCESS", "message" => "Successfully logged in", "user_id" => $user->getUserId()]));
+  exit(json_encode(["status" => "SUCCESS", "message" => "Successfully logged in", "user_id" => $user->getUsername()]));
 }
