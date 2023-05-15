@@ -1,4 +1,6 @@
 <?php
+require('../fpdf/fpdf.php');
+
 class Plan
 {
   private $planId;
@@ -11,7 +13,21 @@ class Plan
     $this->planId = $planId;
     $this->name = $name;
     $this->description = $description;
+
+    // TODO: Exec a querry to use the owner's name instead
     $this->owner_id = $owner_id;
+  }
+
+  public function generatePDF()
+  {
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 18);
+    $pdf->Cell(100, 20, $this->name);
+    $pdf->Cell(100, 18, $this->description);
+
+    // TODO: request to get the owner's name
+    $pdf->Output();
   }
 
   public function getPlanId()
