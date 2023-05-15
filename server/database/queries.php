@@ -46,7 +46,21 @@ class Queries
 
       (bool)password_verify($password, $row['password']);
     } else {
-      return false; // Return false if the user does not exist
+      return false;
+    }
+  }
+
+  public static function getUserById($id)
+  {
+    $db = getDatabaseConnection();
+    $id = $db->real_escape_string($id);
+    $result = $db->query("SELECT * FROM users WHERE id = '$id'");
+
+    if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_assoc($result);
+      return new User($row['id'], $row['username'], $row['password']);
+    } else {
+      return false;
     }
   }
 
@@ -59,11 +73,12 @@ class Queries
     $result = $db->query($sql);
 
     if (mysqli_num_rows($result) > 0) {
-      $row = mysqli_fetch_assoc($result); // returns the first row in the result?
+      $row = mysqli_fetch_assoc($result);
+
       // The password should be hasshed here
       return new User($row['id'], $row['username'], $row['password']);
     } else {
-      return false; // Return false if the user does not exist
+      return false;
     }
   }
 
@@ -104,6 +119,20 @@ class Queries
 
     if ($db->query($query)) {
       return new Plan($db->insert_id, $name, $description, $owner_id);
+    } else {
+      return false;
+    }
+  }
+
+  public static function getPlanById($id)
+  {
+    $db = getDatabaseConnection();
+    $id = $db->real_escape_string($id);
+    $result = $db->query("SELECT * from subject_plans WHERE id = '$id' ");
+
+    if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_assoc($result);
+      return new Plan($row['id'], $row['name'], $row['description'], $row['owner']);
     } else {
       return false;
     }

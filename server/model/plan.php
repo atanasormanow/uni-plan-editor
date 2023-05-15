@@ -1,12 +1,14 @@
 <?php
 require('../fpdf/fpdf.php');
 
+// TODO: maybe its better if the constructor creates a plan in the db.
+// Now it's the other way around - queries get a row and return a model.
 class Plan
 {
   private $planId;
   private $name;
   private $description;
-  private $owner_id;
+  private $owner;
 
   public function __construct($planId, $name, $description, $owner_id)
   {
@@ -14,8 +16,12 @@ class Plan
     $this->name = $name;
     $this->description = $description;
 
-    // TODO: Exec a querry to use the owner's name instead
-    $this->owner_id = $owner_id;
+    $owner_db = Queries::getUserById($owner_id);
+    if (!$owner_db) {
+      throw new PDOException("Invalid owner! Failed to construct Plan object");
+    }
+
+    $this->owner = $owner_db->getUsername();
   }
 
   public function generatePDF()
@@ -52,12 +58,12 @@ class Plan
 
   public function getOwner()
   {
-    return $this->owner_id;
+    return $this->owner;
   }
 
-  public function setOwner($owner_id)
+  public function setOwner($owner)
   {
-    $this->owner_id = $owner_id;
+    $this->owner = $owner;
   }
 
   public function getDescription()
