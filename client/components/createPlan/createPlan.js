@@ -23,15 +23,14 @@ window.onload = () => {
         })
       })
       .then(response => response.json())
-      // TODO: do something on success, maybe redirect to "allPlans"
-      // .then(data => {
-      //   if (data.success) {
-      //     localStorage.setItem('username', username);
-      //   } else {
-      //     console.error("Failed to register user")
-      //     // loginErrorMsg.textContent = data.message;
-      //   }
-      // })
+      .then(data => {
+        console.log(data);
+        if (data.status == 'SUCCESS') {
+          window.location.assign(CLIENT_COMPONENTS + 'listPlans/listPlans.html');
+        } else {
+          console.error("Failed to create plan");
+        }
+      })
       .catch(error => {
         console.error('Error:', error);
       });
