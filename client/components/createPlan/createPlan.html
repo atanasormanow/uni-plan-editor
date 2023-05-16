@@ -11,16 +11,65 @@
 
 <body>
   <form id="plan-form">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required>
+    <!-- <label>Тип на дисциплината:</label> -->
 
-    <label for="owner">Owner:</label>
+    <label>Тип дисциплина:</label>
+    <input type="radio" id="mandatory" name="fav_language" value="mandatory">
+    <label for="mandatory">Задължителна</label>
+    <input type="radio" id="optional" name="fav_language" value="optional">
+    <label for="optional">Избираема</label>
+
+    <!-- TODO: Checkboxes + constants -->
+    <!-- <label for="title">Title:</label> -->
+    <!-- <input type="text" id="title" name="title" required> -->
+
+    <label for="name">Дисциплина:</label>
+    <input type="text" id="name" name="name" required>
+
+    <!-- TODO: drop down menu -->
+    <label for="department">Катедра:</label>
+    <input type="text" id="department" name="department" required>
+
+    <label for="owner">Титуляр:</label>
     <input type="text" id="owner" name="owner" required>
 
-    <label for="description">Description:</label>
+    <!-- TODO: onlu numbers allowed -->
+    <label for="busyness">Заетост:</label>
+    <input type="text" id="busyness" name="busyness" required>
+
+    <!-- TODO: onlu numbers allowed -->
+    <label for="credits">Кредити:</label>
+    <input type="text" id="credits" name="credits" required>
+
+    <label for="description">Анотация:</label>
     <textarea id="description" name="description" required></textarea>
 
-    <button type="submit">Create Plan</button>
+    <!-- TODO: some kind of list with delimiters ??? -->
+    <label for="requiredSkills">Нужни познания:</label>
+    <input type="text" id="requiredSkills" name="requiredSkills" required>
+
+    <!-- TODO: some kind of drop down select list -->
+    <!-- NOTE: could be empty -->
+    <label for="dependencies">Зависимости (други курсове)</label>
+    <input type="text" id="dependencies" name="dependencies" required>
+
+    <!-- TODO: some kind of list with delimiters ??? -->
+    <label for="learnedSkills">Очаквани резултати:</label>
+    <input type="text" id="learnedSkills" name="learnedSkills" required>
+
+    <!-- TODO: should be a list of topics -->
+    <label for="contents">Учебно съдържание:</label>
+    <textarea id="contents" name="contents" required></textarea>
+
+    <!-- TODO: should be a list of topics -->
+    <label for="examSynopsis">Конспект за изпит:</label>
+    <textarea id="examSynopsis" name="examSynopsis" required></textarea>
+
+    <!-- TODO: should be a list of topics -->
+    <label for="bibliography">Библиография:</label>
+    <textarea id="bibliography" name="bibliography" required></textarea>
+
+    <button type="submit">Създай учебна програма</button>
   </form>
 </body>
 
