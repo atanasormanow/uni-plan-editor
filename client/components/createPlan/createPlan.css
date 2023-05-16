@@ -27,6 +27,10 @@ textarea {
   margin-bottom: 10px;
 }
 
+textarea {
+  height: 100px;
+}
+
 .radio-container {
   display: flex;
   flex-direction: column;
