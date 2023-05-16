@@ -2,7 +2,7 @@ window.onload = function() {
   document
     .getElementById("create-plan-button")
     .addEventListener('click', (_event) => {
-      window.location.replace(CLIENT_COMPONENTS + 'createPlan/createPlan.html');
+      window.location.assign(CLIENT_COMPONENTS + 'createPlan/createPlan.html');
     });
 
   fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
