@@ -10,16 +10,23 @@
 </head>
 
 <body>
+  <h1>Създай учебна програма</h1>
   <form id="plan-form">
     <!-- <label>Тип на дисциплината:</label> -->
 
     <label>Тип дисциплина:</label>
-    <input type="radio" id="mandatory" name="fav_language" value="mandatory">
-    <label for="mandatory">Задължителна</label>
-    <input type="radio" id="optional" name="fav_language" value="optional">
-    <label for="optional">Избираема</label>
+    <div class="radio-container">
+      <div>
+        <input type="radio" id="mandatory" name="type" value="mandatory">
+        <label for="mandatory">Задължителна</label>
+      </div>
+      <div>
+        <input type="radio" id="optional" name="type" value="optional">
+        <label for="optional">Избираема</label>
+      </div>
+    </div>
 
-    <!-- TODO: Checkboxes + constants -->
+    <!-- TODO: target majors, Checkboxes + constants -->
     <!-- <label for="title">Title:</label> -->
     <!-- <input type="text" id="title" name="title" required> -->
 
