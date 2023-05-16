@@ -25,7 +25,6 @@ function displayPlans(plans) {
     const row = document.createElement('tr');
     const columnApender = addColumn.bind(this, row);
 
-    columnApender(plan.id);
     columnApender(plan.name, 'plan-name');
     columnApender(plan.description);
     columnApender(plan.owner);
@@ -33,8 +32,8 @@ function displayPlans(plans) {
     const viewCell = document.createElement('td');
     const anchor = document.createElement('a');
     anchor.textContent = 'View';
-    anchor.href = SERVER_CONTROLLERS + 'get_pdf.php';
-    anchor.addEventListener('click', handleViewClick);
+    anchor.href = SERVER_CONTROLLERS + 'get_pdf.php?' + new URLSearchParams({ id: plan.id });
+    // anchor.addEventListener('click', handleViewClick);
     viewCell.appendChild(anchor);
 
     row.appendChild(viewCell);
@@ -43,7 +42,7 @@ function displayPlans(plans) {
   });
 }
 
-function handleViewClick(event) {
-  event.preventDefault();
-  console.log('TODO');
-}
+// function handleViewClick(event) {
+//   event.preventDefault();
+//   console.log(event);
+// }
