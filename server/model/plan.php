@@ -2,12 +2,11 @@
 require('../fpdf/fpdf.php');
 
 // TODO: maybe its better if the constructor creates a plan in the db.
-// Now it's the other way around - queries get a row and return a model.
+// Now it's the other way around - queries select a row and return a model.
 class Plan
 {
   private $planId;
 
-  // Избираема/Задължителна
   private $type;
   private $targetMajors;
   private $name;
@@ -17,7 +16,6 @@ class Plan
   private $credits;
   private $description;
   private $requiredSkills;
-  //Other plans
   private $dependencies;
   private $learnedSkills;
   private $contents;
