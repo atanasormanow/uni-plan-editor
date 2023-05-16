@@ -33,7 +33,6 @@ function displayPlans(plans) {
     const anchor = document.createElement('a');
     anchor.textContent = 'View';
     anchor.href = SERVER_CONTROLLERS + 'get_pdf.php?' + new URLSearchParams({ id: plan.id });
-    // anchor.addEventListener('click', handleViewClick);
     viewCell.appendChild(anchor);
 
     row.appendChild(viewCell);
@@ -41,8 +40,3 @@ function displayPlans(plans) {
     plansList.appendChild(row);
   });
 }
-
-// function handleViewClick(event) {
-//   event.preventDefault();
-//   console.log(event);
-// }
