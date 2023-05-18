@@ -1,5 +1,5 @@
 <?php
-require('../fpdf/fpdf.php');
+require('../tfpdf/tfpdf.php');
 
 // TODO: maybe its better if the constructor creates a plan in the db.
 // Now it's the other way around - queries select a row and return a model.
@@ -16,7 +16,7 @@ class Plan
   private $credits;
   private $description;
   private $requiredSkills;
-  private $dependencies;
+  private $dependencies; // TODO
   private $aquiredSkills;
   private $contents;
   private $examSynopsis;
@@ -24,35 +24,33 @@ class Plan
 
   public function __construct(
     $planId,
+    $owner_id,
     $type,
     $targetMajors,
     $name,
     $department,
-    $owner_id,
     $busyness,
     $credits,
     $description,
     $requiredSkills,
-    $dependencies,
     $aquiredSkills,
     $contents,
     $examSynopsis,
     $bibliography,
   ) {
-    $this->$planId = $planId;
-    $this->$type = $type;
-    $this->$targetMajors = $targetMajors;
-    $this->$name = $name;
-    $this->$department = $department;
-    $this->$busyness = $busyness;
-    $this->$credits = $credits;
-    $this->$description = $description;
-    $this->$requiredSkills = $requiredSkills;
-    $this->$dependencies = $dependencies;
-    $this->$aquiredSkills = $aquiredSkills;
-    $this->$contents = $contents;
-    $this->$examSynopsis = $examSynopsis;
-    $this->$bibliography = $bibliography;
+    $this->planId = $planId;
+    $this->type = $type;
+    $this->targetMajors = $targetMajors;
+    $this->name = $name;
+    $this->department = $department;
+    $this->busyness = $busyness;
+    $this->credits = $credits;
+    $this->description = $description;
+    $this->requiredSkills = $requiredSkills;
+    $this->aquiredSkills = $aquiredSkills;
+    $this->contents = $contents;
+    $this->examSynopsis = $examSynopsis;
+    $this->bibliography = $bibliography;
 
     $owner_db = Queries::getUserById($owner_id);
     if (!$owner_db) {
@@ -64,13 +62,57 @@ class Plan
 
   public function generatePDF()
   {
-    $pdf = new FPDF();
+    $pdf = new tFPDF();
     $pdf->AddPage();
-    $pdf->SetFont('Arial', 'B', 18);
-    $pdf->Cell(100, 20, $this->name);
-    $pdf->Cell(100, 18, $this->description);
 
-    // TODO: request to get the owner's name
+    // Set font for the title
+    $pdf->AddFont('DejaVu', '', 'DejaVuSansCondensed.ttf', true);
+    $pdf->SetFont('DejaVu', '', 18);
+    $pdf->Cell(0, 10, 'УЧЕБНА ПРОГРАМА', 0, 1, 'C');
+
+    // Set font for the content
+    $pdf->SetFont('DejaVu', '', 12);
+
+    // Output the form data
+    $pdf->Cell(40, 10, 'Type: ', 0, 0);
+    $pdf->Cell(0, 10, $this->type, 0, 1);
+
+    $pdf->Cell(40, 10, 'Name: ', 0);
+    $pdf->Cell(0, 10, $this->name, 0, 1);
+
+    $pdf->Cell(40, 10, 'Department: ', 0);
+    $pdf->Cell(0, 10, $this->department, 0, 1);
+
+    $pdf->Cell(40, 10, 'Owner: ', 0);
+    $pdf->Cell(0, 10, $this->owner, 0, 1);
+
+    $pdf->Cell(40, 10, 'Busyness: ', 0);
+    $pdf->Cell(0, 10, $this->busyness, 0, 1);
+
+    $pdf->Cell(40, 10, 'Credits: ', 0);
+    $pdf->Cell(0, 10, $this->credits, 0, 1);
+
+    $pdf->Cell(40, 10, 'Description: ', 0);
+    $pdf->MultiCell(0, 10, $this->description, 0, 1);
+
+    $pdf->Cell(40, 10, 'Required Skills: ', 0);
+    $pdf->MultiCell(0, 10, $this->requiredSkills, 0, 1);
+
+    $pdf->Cell(40, 10, 'Aquired Skills: ', 0);
+    $pdf->MultiCell(0, 10, $this->aquiredSkills, 0, 1);
+
+    $pdf->Cell(40, 10, 'Contents: ', 0);
+    $pdf->MultiCell(0, 10, $this->contents, 0, 1);
+
+    $pdf->Cell(40, 10, 'Exam Synopsis: ', 0);
+    $pdf->MultiCell(0, 10, $this->examSynopsis, 0, 1);
+
+    $pdf->Cell(40, 10, 'Bibliography: ', 0);
+    $pdf->MultiCell(0, 10, $this->bibliography, 0, 1);
+
+    $pdf->Cell(40, 10, 'Majors: ', 0);
+    $pdf->MultiCell(0, 10, $this->targetMajors, 0, 1);
+
     $pdf->Output();
   }
 

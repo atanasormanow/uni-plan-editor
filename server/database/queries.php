@@ -110,7 +110,6 @@ class Queries
     $credits,
     $description,
     $requiredSkills,
-    $dependencies,
     $aquiredSkills,
     $contents,
     $examSynopsis,
@@ -126,7 +125,6 @@ class Queries
     $credits = $db->real_escape_string($credits);
     $description = $db->real_escape_string($description);
     $requiredSkills = $db->real_escape_string($requiredSkills);
-    $dependencies = $db->real_escape_string($dependencies);
     $aquiredSkills = $db->real_escape_string($aquiredSkills);
     $contents = $db->real_escape_string($contents);
     $examSynopsis = $db->real_escape_string($examSynopsis);
@@ -161,16 +159,15 @@ class Queries
     if ($db->query($query)) {
       return new Plan(
         $db->insert_id,
+        $owner_id,
         $type,
         $targetMajors,
         $name,
         $department,
-        $owner_id,
         $busyness,
         $credits,
         $description,
         $requiredSkills,
-        $dependencies,
         $aquiredSkills,
         $contents,
         $examSynopsis,
@@ -185,25 +182,25 @@ class Queries
   {
     $db = getDatabaseConnection();
     $id = $db->real_escape_string($id);
-    $result = $db->query("SELECT * from subject_plans WHERE id = '$id' ");
+    $result = $db->query("SELECT * from subject_plans WHERE id = '$id'");
 
     if (mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
+
       return new Plan(
         $row['id'],
+        $row['owner'],
         $row['type'],
-        $row['targetMajors'],
+        $row['target_majors'],
         $row['name'],
         $row['department'],
-        $row['owner_id'],
         $row['busyness'],
         $row['credits'],
         $row['description'],
-        $row['requiredSkills'],
-        $row['dependencies'],
-        $row['aquiredSkills'],
+        $row['required_skills'],
+        $row['aquired_skills'],
         $row['contents'],
-        $row['examSynopsis'],
+        $row['exam_synopsis'],
         $row['bibliography'],
       );
     } else {
