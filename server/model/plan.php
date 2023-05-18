@@ -22,11 +22,37 @@ class Plan
   private $examSynopsis;
   private $bibliography;
 
-  public function __construct($planId, $name, $description, $owner_id)
-  {
-    $this->planId = $planId;
-    $this->name = $name;
-    $this->description = $description;
+  public function __construct(
+    $planId,
+    $type,
+    $targetMajors,
+    $name,
+    $department,
+    $owner_id,
+    $busyness,
+    $credits,
+    $description,
+    $requiredSkills,
+    $dependencies,
+    $learnedSkills,
+    $contents,
+    $examSynopsis,
+    $bibliography,
+  ) {
+    $this->$planId = $planId;
+    $this->$type = $type;
+    $this->$targetMajors = $targetMajors;
+    $this->$name = $name;
+    $this->$department = $department;
+    $this->$busyness = $busyness;
+    $this->$credits = $credits;
+    $this->$description = $description;
+    $this->$requiredSkills = $requiredSkills;
+    $this->$dependencies = $dependencies;
+    $this->$learnedSkills = $learnedSkills;
+    $this->$contents = $contents;
+    $this->$examSynopsis = $examSynopsis;
+    $this->$bibliography = $bibliography;
 
     $owner_db = Queries::getUserById($owner_id);
     if (!$owner_db) {

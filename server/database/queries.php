@@ -101,24 +101,76 @@ class Queries
     return json_encode($rows);
   }
 
-  public static function createPlan($name, $username, $description)
-  {
+  public static function createPlan(
+    $type,
+    $targetMajors,
+    $name,
+    $department,
+    $busyness,
+    $credits,
+    $description,
+    $requiredSkills,
+    $dependencies,
+    $learnedSkills,
+    $contents,
+    $examSynopsis,
+    $bibliography,
+    $owner,
+  ) {
     $db = getDatabaseConnection();
-    $name = $db->real_escape_string($name);
-    $description = $db->real_escape_string($description);
-    $username = $db->real_escape_string($username);
 
-    $owner = Queries::getUserByUsername($username);
+    $type = $db->real_escape_string($type);
+    $targetMajors = $db->real_escape_string($targetMajors);
+    $name = $db->real_escape_string($name);
+    $department = $db->real_escape_string($department);
+    $busyness = $db->real_escape_string($busyness);
+    $credits = $db->real_escape_string($credits);
+    $description = $db->real_escape_string($description);
+    $requiredSkills = $db->real_escape_string($requiredSkills);
+    $dependencies = $db->real_escape_string($dependencies);
+    $learnedSkills = $db->real_escape_string($learnedSkills);
+    $contents = $db->real_escape_string($contents);
+    $examSynopsis = $db->real_escape_string($examSynopsis);
+    $bibliography = $db->real_escape_string($bibliography);
+    $owner = $db->real_escape_string($owner);
+
+    $owner = Queries::getUserByUsername($owner);
     if (!$owner) {
       return false;
     }
 
     $owner_id = $owner->getUserId();
 
-    $query = "INSERT INTO subject_plans (name, description, owner) VALUES ('$name', '$description', '$owner_id')";
+    // TODO: make sure the column types match
+    $query = "
+    INSERT INTO subject_plans (
+    type, targetMajors, name, department, owner_id, busyness, credits,
+    description, requiredSkills, dependencies, learnedSkills, contents,
+    examSynopsis, bibliography, owner
+    ) VALUES (
+    '$type', '$targetMajors', '$name', '$department', '$busyness', '$credits',
+    '$description', '$requiredSkills', '$dependencies', '$learnedSkills', '$contents',
+    '$examSynopsis', '$bibliography', '$owner'
+    )";
 
     if ($db->query($query)) {
-      return new Plan($db->insert_id, $name, $description, $owner_id);
+      return new Plan(
+        $db->insert_id,
+        $type,
+        $targetMajors,
+        $name,
+        $department,
+        $owner_id,
+        $busyness,
+        $credits,
+        $description,
+        $requiredSkills,
+        $dependencies,
+        $learnedSkills,
+        $contents,
+        $examSynopsis,
+        $bibliography,
+      );
     } else {
       return false;
     }
@@ -132,7 +184,23 @@ class Queries
 
     if (mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
-      return new Plan($row['id'], $row['name'], $row['description'], $row['owner']);
+      return new Plan(
+        $row['id'],
+        $row['type'],
+        $row['targetMajors'],
+        $row['name'],
+        $row['department'],
+        $row['owner_id'],
+        $row['busyness'],
+        $row['credits'],
+        $row['description'],
+        $row['requiredSkills'],
+        $row['dependencies'],
+        $row['learnedSkills'],
+        $row['contents'],
+        $row['examSynopsis'],
+        $row['bibliography'],
+      );
     } else {
       return false;
     }
