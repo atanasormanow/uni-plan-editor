@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $credits = $data['credits'];
   $description = $data['description'];
   $requiredSkills = $data['requiredSkills'];
-  $dependencies = $data['dependencies'];
   $aquiredSkills = $data['aquiredSkills'];
   $contents = $data['contents'];
   $examSynopsis = $data['examSynopsis'];
@@ -29,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $credits,
     $description,
     $requiredSkills,
-    $dependencies,
     $aquiredSkills,
     $contents,
     $examSynopsis,

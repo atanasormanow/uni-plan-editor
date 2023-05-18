@@ -77,41 +77,41 @@ class Plan
     $pdf->Cell(40, 10, 'Type: ', 0, 0);
     $pdf->Cell(0, 10, $this->type, 0, 1);
 
-    $pdf->Cell(40, 10, 'Name: ', 0);
+    $pdf->Cell(40, 10, 'Специалност: ', 0);
+    $pdf->MultiCell(0, 10, $this->targetMajors, 0, 1);
+
+    $pdf->Cell(40, 10, 'Дисциплина: ', 0);
     $pdf->Cell(0, 10, $this->name, 0, 1);
 
-    $pdf->Cell(40, 10, 'Department: ', 0);
+    $pdf->Cell(40, 10, 'Катедра: ', 0);
     $pdf->Cell(0, 10, $this->department, 0, 1);
 
-    $pdf->Cell(40, 10, 'Owner: ', 0);
+    $pdf->Cell(40, 10, 'Титуляр: ', 0);
     $pdf->Cell(0, 10, $this->owner, 0, 1);
 
-    $pdf->Cell(40, 10, 'Busyness: ', 0);
+    $pdf->Cell(40, 10, 'Заетост: ', 0);
     $pdf->Cell(0, 10, $this->busyness, 0, 1);
 
-    $pdf->Cell(40, 10, 'Credits: ', 0);
+    $pdf->Cell(40, 10, 'Кредити: ', 0);
     $pdf->Cell(0, 10, $this->credits, 0, 1);
 
-    $pdf->Cell(40, 10, 'Description: ', 0);
+    $pdf->Cell(40, 10, 'Анотация на учебната дисциплина: ', 0);
     $pdf->MultiCell(0, 10, $this->description, 0, 1);
 
-    $pdf->Cell(40, 10, 'Required Skills: ', 0);
+    $pdf->Cell(40, 10, 'Предварителни изисквания: ', 0);
     $pdf->MultiCell(0, 10, $this->requiredSkills, 0, 1);
 
-    $pdf->Cell(40, 10, 'Aquired Skills: ', 0);
+    $pdf->Cell(40, 10, 'Очаквани резултати: ', 0);
     $pdf->MultiCell(0, 10, $this->aquiredSkills, 0, 1);
 
-    $pdf->Cell(40, 10, 'Contents: ', 0);
+    $pdf->Cell(40, 10, 'Учебно съдържание: ', 0);
     $pdf->MultiCell(0, 10, $this->contents, 0, 1);
 
-    $pdf->Cell(40, 10, 'Exam Synopsis: ', 0);
+    $pdf->Cell(40, 10, 'Конспект за изпит: ', 0);
     $pdf->MultiCell(0, 10, $this->examSynopsis, 0, 1);
 
-    $pdf->Cell(40, 10, 'Bibliography: ', 0);
+    $pdf->Cell(40, 10, 'Библиография: ', 0);
     $pdf->MultiCell(0, 10, $this->bibliography, 0, 1);
-
-    $pdf->Cell(40, 10, 'Majors: ', 0);
-    $pdf->MultiCell(0, 10, $this->targetMajors, 0, 1);
 
     $pdf->Output();
   }
