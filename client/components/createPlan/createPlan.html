@@ -15,11 +15,11 @@
     <label>Тип дисциплина:</label>
     <div class="radio-container">
       <div>
-        <input type="radio" id="mandatory" name="type" value="mandatory">
+        <input type="radio" id="mandatory" name="type" value="z" checked>
         <label for="mandatory">Задължителна</label>
       </div>
       <div>
-        <input type="radio" id="optional" name="type" value="optional">
+        <input type="radio" id="optional" name="type" value="i">
         <label for="optional">Избираема</label>
       </div>
     </div>
@@ -47,10 +47,10 @@
     <input type="text" id="credits" name="credits" required>
 
     <label for="description">Анотация:</label>
-    <textarea id="description" name="description" required></textarea>
+    <textarea id="description" name="description"></textarea>
 
     <label for="requiredSkills">Нужни познания:</label>
-    <textarea type="text" id="requiredSkills" name="requiredSkills" required></textarea>
+    <textarea type="text" id="requiredSkills" name="requiredSkills"></textarea>
 
     <!-- TODO: some kind of drop down select list -->
     <!-- NOTE: could be empty -->
@@ -58,7 +58,7 @@
     <!-- <input type="text" id="dependencies" name="dependencies" required> -->
 
     <label for="aquiredSkills">Очаквани резултати:</label>
-    <textarea type="text" id="aquiredSkills" name="aquiredSkills" required></textarea>
+    <textarea type="text" id="aquiredSkills" name="aquiredSkills"></textarea>
 
     <label for="contents">Учебно съдържание:</label>
     <textarea id="contents" name="contents" required></textarea>
@@ -67,7 +67,7 @@
     <textarea id="examSynopsis" name="examSynopsis" required></textarea>
 
     <label for="bibliography">Библиография:</label>
-    <textarea id="bibliography" name="bibliography" required></textarea>
+    <textarea id="bibliography" name="bibliography"></textarea>
 
     <button type="submit">Създай учебна програма</button>
   </form>

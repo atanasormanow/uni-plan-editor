@@ -139,18 +139,23 @@ class Queries
       return false;
     }
 
+    // TODO
+    if (!$department) {
+      $department = 'kn';
+    }
+
     $owner_id = $owner->getUserId();
 
     // TODO: make sure the column types match
     $query = "
     INSERT INTO subject_plans (
-    type, targetMajors, name, department, owner_id, busyness, credits,
-    description, requiredSkills, dependencies, aquiredSkills, contents,
-    examSynopsis, bibliography, owner
+    type, target_majors, name, department, busyness, credits,
+    description, required_skills, aquired_skills, contents,
+    exam_synopsis, bibliography, owner
     ) VALUES (
     '$type', '$targetMajors', '$name', '$department', '$busyness', '$credits',
-    '$description', '$requiredSkills', '$dependencies', '$aquiredSkills', '$contents',
-    '$examSynopsis', '$bibliography', '$owner'
+    '$description', '$requiredSkills', '$aquiredSkills', '$contents',
+    '$examSynopsis', '$bibliography', '$owner_id'
     )";
 
     if ($db->query($query)) {
