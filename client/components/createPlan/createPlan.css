@@ -51,6 +51,21 @@ textarea {
   margin-bottom: 5px;
 }
 
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.checkbox-container > label {
+  font-weight: normal;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 5px;
+  float: left;
+}
+
 button[type="submit"] {
   margin-bottom: 10px;
   padding: 10px 20px;

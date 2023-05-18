@@ -1,4 +1,5 @@
 window.onload = () => {
+  displayCheckboxes();
   const form = document.getElementById('plan-form');
 
   form.addEventListener('submit', (event) => {
@@ -17,10 +18,14 @@ window.onload = () => {
     const contents = document.getElementById('contents').value;
     const examSynopsis = document.getElementById('examSynopsis').value;
     const bibliography = document.getElementById('bibliography').value;
+    const targetMajors =
+      Array.from(document.querySelectorAll('input[name="majors"]:checked'))
+        .map(checkbox => checkbox.value);
 
     const formData = {
       type, name, department, owner, busyness, credits, description,
-      requiredSkills, aquiredSkills, contents, examSynopsis, bibliography
+      requiredSkills, aquiredSkills, contents, examSynopsis, bibliography,
+      targetMajors
     };
 
     fetch(
@@ -46,3 +51,19 @@ window.onload = () => {
   });
 };
 
+function displayCheckboxes() {
+  const checkboxContainer = document.getElementById('target-majors');
+
+  for (const key in FMI_MAJORS) {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.name = 'majors';
+    checkbox.value = key;
+
+    const label = document.createElement('label');
+    label.textContent = FMI_MAJORS[key];
+    label.appendChild(checkbox);
+
+    checkboxContainer.appendChild(label);
+  }
+}

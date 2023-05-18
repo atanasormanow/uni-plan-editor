@@ -3,22 +3,22 @@ require_once("../database/queries.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $input_data = file_get_contents("php://input");
-  $plan_data = json_decode($input_data, true);
+  $data = json_decode($input_data, true);
 
-  $type = $plan_data['type'];
-  $targetMajors = $plan_data['targetMajors'];
-  $name = $plan_data['name'];
-  $department = $plan_data['department'];
-  $busyness = $plan_data['busyness'];
-  $credits = $plan_data['credits'];
-  $description = $plan_data['description'];
-  $requiredSkills = $plan_data['requiredSkills'];
-  $dependencies = $plan_data['dependencies'];
-  $aquiredSkills = $plan_data['aquiredSkills'];
-  $contents = $plan_data['contents'];
-  $examSynopsis = $plan_data['examSynopsis'];
-  $bibliography = $plan_data['bibliography'];
-  $owner = $plan_data['owner'];
+  $type = $data['type'];
+  $targetMajors = $data['targetMajors'];
+  $name = $data['name'];
+  $department = $data['department'];
+  $busyness = $data['busyness'];
+  $credits = $data['credits'];
+  $description = $data['description'];
+  $requiredSkills = $data['requiredSkills'];
+  $dependencies = $data['dependencies'];
+  $aquiredSkills = $data['aquiredSkills'];
+  $contents = $data['contents'];
+  $examSynopsis = $data['examSynopsis'];
+  $bibliography = $data['bibliography'];
+  $owner = $data['owner'];
 
   $plan = Queries::createPlan(
     $type,

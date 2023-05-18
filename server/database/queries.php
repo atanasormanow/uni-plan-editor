@@ -120,7 +120,6 @@ class Queries
     $db = getDatabaseConnection();
 
     $type = $db->real_escape_string($type);
-    $targetMajors = $db->real_escape_string($targetMajors);
     $name = $db->real_escape_string($name);
     $department = $db->real_escape_string($department);
     $busyness = $db->real_escape_string($busyness);
@@ -133,6 +132,7 @@ class Queries
     $examSynopsis = $db->real_escape_string($examSynopsis);
     $bibliography = $db->real_escape_string($bibliography);
     $owner = $db->real_escape_string($owner);
+    $targetMajors = implode(',', $targetMajors);
 
     $owner = Queries::getUserByUsername($owner);
     if (!$owner) {
