@@ -111,7 +111,7 @@ class Queries
     $description,
     $requiredSkills,
     $dependencies,
-    $learnedSkills,
+    $aquiredSkills,
     $contents,
     $examSynopsis,
     $bibliography,
@@ -128,7 +128,7 @@ class Queries
     $description = $db->real_escape_string($description);
     $requiredSkills = $db->real_escape_string($requiredSkills);
     $dependencies = $db->real_escape_string($dependencies);
-    $learnedSkills = $db->real_escape_string($learnedSkills);
+    $aquiredSkills = $db->real_escape_string($aquiredSkills);
     $contents = $db->real_escape_string($contents);
     $examSynopsis = $db->real_escape_string($examSynopsis);
     $bibliography = $db->real_escape_string($bibliography);
@@ -145,11 +145,11 @@ class Queries
     $query = "
     INSERT INTO subject_plans (
     type, targetMajors, name, department, owner_id, busyness, credits,
-    description, requiredSkills, dependencies, learnedSkills, contents,
+    description, requiredSkills, dependencies, aquiredSkills, contents,
     examSynopsis, bibliography, owner
     ) VALUES (
     '$type', '$targetMajors', '$name', '$department', '$busyness', '$credits',
-    '$description', '$requiredSkills', '$dependencies', '$learnedSkills', '$contents',
+    '$description', '$requiredSkills', '$dependencies', '$aquiredSkills', '$contents',
     '$examSynopsis', '$bibliography', '$owner'
     )";
 
@@ -166,7 +166,7 @@ class Queries
         $description,
         $requiredSkills,
         $dependencies,
-        $learnedSkills,
+        $aquiredSkills,
         $contents,
         $examSynopsis,
         $bibliography,
@@ -196,7 +196,7 @@ class Queries
         $row['description'],
         $row['requiredSkills'],
         $row['dependencies'],
-        $row['learnedSkills'],
+        $row['aquiredSkills'],
         $row['contents'],
         $row['examSynopsis'],
         $row['bibliography'],

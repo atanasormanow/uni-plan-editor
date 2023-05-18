@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $description = $plan_data['description'];
   $requiredSkills = $plan_data['requiredSkills'];
   $dependencies = $plan_data['dependencies'];
-  $learnedSkills = $plan_data['learnedSkills'];
+  $aquiredSkills = $plan_data['aquiredSkills'];
   $contents = $plan_data['contents'];
   $examSynopsis = $plan_data['examSynopsis'];
   $bibliography = $plan_data['bibliography'];
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description,
     $requiredSkills,
     $dependencies,
-    $learnedSkills,
+    $aquiredSkills,
     $contents,
     $examSynopsis,
     $bibliography,

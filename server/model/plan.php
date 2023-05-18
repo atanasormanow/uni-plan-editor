@@ -17,7 +17,7 @@ class Plan
   private $description;
   private $requiredSkills;
   private $dependencies;
-  private $learnedSkills;
+  private $aquiredSkills;
   private $contents;
   private $examSynopsis;
   private $bibliography;
@@ -34,7 +34,7 @@ class Plan
     $description,
     $requiredSkills,
     $dependencies,
-    $learnedSkills,
+    $aquiredSkills,
     $contents,
     $examSynopsis,
     $bibliography,
@@ -49,7 +49,7 @@ class Plan
     $this->$description = $description;
     $this->$requiredSkills = $requiredSkills;
     $this->$dependencies = $dependencies;
-    $this->$learnedSkills = $learnedSkills;
+    $this->$aquiredSkills = $aquiredSkills;
     $this->$contents = $contents;
     $this->$examSynopsis = $examSynopsis;
     $this->$bibliography = $bibliography;
@@ -184,14 +184,14 @@ class Plan
     $this->dependencies = $dependencies;
   }
 
-  public function getLearnedSkills()
+  public function getAquiredSkills()
   {
-    return $this->learnedSkills;
+    return $this->aquiredSkills;
   }
 
-  public function setLearnedSkills($learnedSkills)
+  public function setAquiredSkills($aquiredSkills)
   {
-    $this->learnedSkills = $learnedSkills;
+    $this->aquiredSkills = $aquiredSkills;
   }
 
   public function getContents()
