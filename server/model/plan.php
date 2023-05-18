@@ -116,6 +116,10 @@ class Plan
     $pdf->Output();
   }
 
+  public function expose() {
+    return get_object_vars($this);
+  }
+
   public function getPlanId()
   {
     return $this->planId;

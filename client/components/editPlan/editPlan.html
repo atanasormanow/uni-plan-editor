@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Edit Plan</title>
+  <meta charset="UTF-8">
+  <script src="editPlan.js"></script>
+  <script src="../../modules/constants.js"></script>
+  <link rel="stylesheet" href="editPlan.css" />
+</head>
+
+<body>
+  <h1>Редактирай учебна програма</h1>
+  <form id="plan-form">
+    <label>Тип дисциплина:</label>
+    <div class="radio-container">
+      <div>
+        <input type="radio" id="mandatory" name="type" value="z" checked>
+        <label for="mandatory">Задължителна</label>
+      </div>
+      <div>
+        <input type="radio" id="optional" name="type" value="i">
+        <label for="optional">Избираема</label>
+      </div>
+    </div>
+
+    <label>Специалност:</label>
+    <div id="target-majors" class="checkbox-container"></div>
+
+    <label for="name">Дисциплина:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="department">Катедра:</label>
+    <input type="text" id="department" name="department" required>
+
+    <!-- TODO: This should probably be the currently logged in user instead -->
+    <label for="owner">Титуляр:</label>
+    <input type="text" id="owner" name="owner" required>
+
+    <!-- TODO: only numbers allowed -->
+    <label for="busyness">Заетост:</label>
+    <input type="text" id="busyness" name="busyness" required>
+
+    <!-- TODO: only numbers allowed -->
+    <label for="credits">Кредити:</label>
+    <input type="text" id="credits" name="credits" required>
+
+    <label for="description">Анотация:</label>
+    <textarea id="description" name="description"></textarea>
+
+    <label for="requiredSkills">Нужни познания:</label>
+    <textarea type="text" id="requiredSkills" name="requiredSkills"></textarea>
+
+    <!-- TODO: some kind of drop down select list -->
+    <!-- NOTE: could be empty -->
+    <!-- <label for="dependencies">Зависимости (други курсове)</label> -->
+    <!-- <input type="text" id="dependencies" name="dependencies" required> -->
+
+    <label for="aquiredSkills">Очаквани резултати:</label>
+    <textarea type="text" id="aquiredSkills" name="aquiredSkills"></textarea>
+
+    <label for="contents">Учебно съдържание:</label>
+    <textarea id="contents" name="contents" required></textarea>
+
+    <label for="examSynopsis">Конспект за изпит:</label>
+    <textarea id="examSynopsis" name="examSynopsis" required></textarea>
+
+    <label for="bibliography">Библиография:</label>
+    <textarea id="bibliography" name="bibliography"></textarea>
+
+    <button type="submit">Създай учебна програма</button>
+  </form>
+</body>
+
+</html>

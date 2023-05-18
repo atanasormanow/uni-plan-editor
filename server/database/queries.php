@@ -178,6 +178,83 @@ class Queries
     }
   }
 
+
+  public static function editPlan(
+    $planId,
+    $type,
+    $targetMajors,
+    $name,
+    $department,
+    $busyness,
+    $credits,
+    $description,
+    $requiredSkills,
+    $aquiredSkills,
+    $contents,
+    $examSynopsis,
+    $bibliography,
+    $owner,
+  ) {
+    $db = getDatabaseConnection();
+
+    $planId = $db->real_escape_string($planId);
+    $type = $db->real_escape_string($type);
+    $name = $db->real_escape_string($name);
+    $department = $db->real_escape_string($department);
+    $busyness = $db->real_escape_string($busyness);
+    $credits = $db->real_escape_string($credits);
+    $description = $db->real_escape_string($description);
+    $requiredSkills = $db->real_escape_string($requiredSkills);
+    $aquiredSkills = $db->real_escape_string($aquiredSkills);
+    $contents = $db->real_escape_string($contents);
+    $examSynopsis = $db->real_escape_string($examSynopsis);
+    $bibliography = $db->real_escape_string($bibliography);
+    $owner = $db->real_escape_string($owner);
+    $targetMajors = implode(',', $targetMajors);
+
+    $owner = Queries::getUserByUsername($owner);
+    if (!$owner) {
+      return false;
+    }
+
+    // TODO
+    if (!$department) {
+      $department = 'kn';
+    }
+
+    $owner_id = $owner->getUserId();
+
+    // TODO: make sure the column types match
+    $query = "
+  UPDATE subject_plans
+  SET type='$type', target_majors='$targetMajors', name='$name', department='$department',
+  busyness='$busyness', credits='$credits', description='$description', required_skills='$requiredSkills',
+  aquired_skills='$aquiredSkills', contents='$contents', exam_synopsis='$examSynopsis',
+  bibliography='$bibliography', owner='$owner_id'
+  WHERE plan_id='$planId'";
+
+    if ($db->query($query)) {
+      return new Plan(
+        $planId,
+        $owner_id,
+        $type,
+        $targetMajors,
+        $name,
+        $department,
+        $busyness,
+        $credits,
+        $description,
+        $requiredSkills,
+        $aquiredSkills,
+        $contents,
+        $examSynopsis,
+        $bibliography,
+      );
+    } else {
+      return false;
+    }
+  }
+
   public static function getPlanById($id)
   {
     $db = getDatabaseConnection();

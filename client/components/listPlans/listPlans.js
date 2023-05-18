@@ -29,13 +29,26 @@ function displayPlans(plans) {
     columnApender(plan.description);
     columnApender(plan.owner);
 
-    const viewCell = document.createElement('td');
-    const anchor = document.createElement('a');
-    anchor.textContent = 'View';
-    anchor.href = SERVER_CONTROLLERS + 'get_pdf.php?' + new URLSearchParams({ id: plan.id });
-    viewCell.appendChild(anchor);
+    const actionsCell = document.createElement('td');
+    actionsCell.setAttribute('class', 'actions-cell');
 
-    row.appendChild(viewCell);
+    const editAnchor = document.createElement('a');
+    editAnchor.textContent = 'Edit';
+    editAnchor.href =
+      CLIENT_COMPONENTS
+      + 'editPlan/editPlan.html?'
+      + new URLSearchParams({ id: plan.id });
+    actionsCell.appendChild(editAnchor);
+
+    const viewAnchor = document.createElement('a');
+    viewAnchor.textContent = 'View';
+    viewAnchor.href =
+      SERVER_CONTROLLERS
+      + 'get_pdf.php?'
+      + new URLSearchParams({ id: plan.id });
+    actionsCell.appendChild(viewAnchor);
+
+    row.appendChild(actionsCell);
 
     plansList.appendChild(row);
   });

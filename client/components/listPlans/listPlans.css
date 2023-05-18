@@ -4,6 +4,7 @@
 }
 
 #plans-table th,
+
 #plans-table td {
   border: 1px solid #ccc;
   padding: 8px;
@@ -15,4 +16,9 @@
 
 .plan-name {
   font-weight: bold;
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: space-evenly;
 }
