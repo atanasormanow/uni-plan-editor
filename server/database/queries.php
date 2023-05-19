@@ -231,7 +231,7 @@ class Queries
   busyness='$busyness', credits='$credits', description='$description', required_skills='$requiredSkills',
   aquired_skills='$aquiredSkills', contents='$contents', exam_synopsis='$examSynopsis',
   bibliography='$bibliography', owner='$owner_id'
-  WHERE plan_id='$planId'";
+  WHERE id='$planId'";
 
     if ($db->query($query)) {
       return new Plan(

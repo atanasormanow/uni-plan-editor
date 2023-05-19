@@ -85,7 +85,6 @@ function fillForm(form) {
     .then(response => response.json())
     .then(({ data }) => {
       const editedPlan = data;
-      console.log(editedPlan);
 
       form.type.value = editedPlan.type;
       form.name.value = editedPlan.name;

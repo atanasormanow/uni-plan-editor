@@ -2,7 +2,6 @@
 require_once("../database/queries.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-  // TODO: join with owners
   $plans = Queries::getAllPlans();
 
   if (!$plans) {

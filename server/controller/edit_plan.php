@@ -4,7 +4,7 @@ require_once("../database/queries.php");
 if ($_SERVER["REQUEST_METHOD"] == "PUT") {
   $input_data = file_get_contents("php://input");
   $data = json_decode($input_data, true);
-  $planId = $_GET['plan_id'];
+  $planId = $_GET['id'];
 
   $type = $data['type'];
   $targetMajors = $data['targetMajors'];
