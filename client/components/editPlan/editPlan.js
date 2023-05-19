@@ -99,7 +99,15 @@ function fillForm(form) {
       form.examSynopsis.value = editedPlan.examSynopsis;
       form.bibliography.value = editedPlan.bibliography;
 
-      // TODO: fill checkboxes
+      const targetMajors = editedPlan.targetMajors.split(',');
+      const majorsCheckboxes = document.getElementById('target-majors');
+      const checkboxInputs = majorsCheckboxes.querySelectorAll('input');
+      for (let i = 0; i < checkboxInputs.length; i++) {
+        if (targetMajors.includes(checkboxInputs[i].value)) {
+          checkboxInputs[i].checked = true;
+        }
+      }
+
       if (editedPlan.type === "z") {
         document.getElementById("mandatory").checked = true;
       } else if (editedPlan.type === "i") {
