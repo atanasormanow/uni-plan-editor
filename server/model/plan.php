@@ -22,6 +22,7 @@ class Plan
   private $examSynopsis;
   private $bibliography;
 
+  // TODO: pass json/map instead to avoid messing up the arguments order
   public function __construct(
     $planId,
     $owner_id,
@@ -63,60 +64,37 @@ class Plan
   public function generatePDF()
   {
     $pdf = new tFPDF();
-    $pdf->AddPage();
+    $pdf->AddPage('P', 'A4');
 
-    // Set font for the title
-    $pdf->AddFont('DejaVu', '', 'DejaVuSansCondensed.ttf', true);
+    $pdf->AddFont('DejaVu', '', 'DejaVuSans.ttf', true);
+    $pdf->AddFont('DejaVu-Bold', '', 'DejaVuSans-Bold.ttf', true);
+
     $pdf->SetFont('DejaVu', '', 18);
+    $pdf->SetTitle('УЧЕБНА ПРОГРАМА', true);
     $pdf->Cell(0, 10, 'УЧЕБНА ПРОГРАМА', 0, 1, 'C');
+    $pdf->Ln();
 
-    // Set font for the content
     $pdf->SetFont('DejaVu', '', 12);
 
-    // Output the form data
-    $pdf->Cell(40, 10, 'Type: ', 0, 0);
-    $pdf->Cell(0, 10, $this->type, 0, 1);
-
-    $pdf->Cell(40, 10, 'Специалност: ', 0);
-    $pdf->MultiCell(0, 10, $this->targetMajors, 0, 1);
-
-    $pdf->Cell(40, 10, 'Дисциплина: ', 0);
-    $pdf->Cell(0, 10, $this->name, 0, 1);
-
-    $pdf->Cell(40, 10, 'Катедра: ', 0);
-    $pdf->Cell(0, 10, $this->department, 0, 1);
-
-    $pdf->Cell(40, 10, 'Титуляр: ', 0);
-    $pdf->Cell(0, 10, $this->owner, 0, 1);
-
-    $pdf->Cell(40, 10, 'Заетост: ', 0);
-    $pdf->Cell(0, 10, $this->busyness, 0, 1);
-
-    $pdf->Cell(40, 10, 'Кредити: ', 0);
-    $pdf->Cell(0, 10, $this->credits, 0, 1);
-
-    $pdf->Cell(40, 10, 'Анотация на учебната дисциплина: ', 0);
-    $pdf->MultiCell(0, 10, $this->description, 0, 1);
-
-    $pdf->Cell(40, 10, 'Предварителни изисквания: ', 0);
-    $pdf->MultiCell(0, 10, $this->requiredSkills, 0, 1);
-
-    $pdf->Cell(40, 10, 'Очаквани резултати: ', 0);
-    $pdf->MultiCell(0, 10, $this->aquiredSkills, 0, 1);
-
-    $pdf->Cell(40, 10, 'Учебно съдържание: ', 0);
-    $pdf->MultiCell(0, 10, $this->contents, 0, 1);
-
-    $pdf->Cell(40, 10, 'Конспект за изпит: ', 0);
-    $pdf->MultiCell(0, 10, $this->examSynopsis, 0, 1);
-
-    $pdf->Cell(40, 10, 'Библиография: ', 0);
-    $pdf->MultiCell(0, 10, $this->bibliography, 0, 1);
+    $this->writeCell('Тип дисциплина', $this->getReadableType(), $pdf);
+    $this->writeCell('Специалност', $this->getReadableTargetMajors(), $pdf);
+    $this->writeCell('Дисциплина', $this->name, $pdf);
+    $this->writeCell('Катедра', $this->department, $pdf);
+    $this->writeCell('Титуляр', $this->owner, $pdf);
+    $this->writeCell('Заетост', $this->busyness, $pdf);
+    $this->writeCell('Кредити', $this->credits, $pdf);
+    $this->writeText('Анотация на учебната дисциплина', $this->description, $pdf);
+    $this->writeText('Предварителни изисквания', $this->requiredSkills, $pdf);
+    $this->writeText('Очаквани резултати', $this->aquiredSkills, $pdf);
+    $this->writeText('Учебно съдържание', $this->contents, $pdf);
+    $this->writeText('Конспект за изпит', $this->examSynopsis, $pdf);
+    $this->writeText('Библиография', $this->bibliography, $pdf);
 
     $pdf->Output();
   }
 
-  public function expose() {
+  public function expose()
+  {
     return get_object_vars($this);
   }
 
@@ -165,6 +143,11 @@ class Plan
     return $this->type;
   }
 
+  public function getReadableType()
+  {
+    return $this->type == 'z' ? 'Задължителна' : 'Избираема';
+  }
+
   public function setType($type)
   {
     $this->type = $type;
@@ -173,6 +156,48 @@ class Plan
   public function getTargetMajors()
   {
     return $this->targetMajors;
+  }
+
+  public function getReadableTargetMajors()
+  {
+    $readableMajors = array_map(
+      function ($major) {
+        switch ($major) {
+          case 'i':
+            return 'Информатика';
+            break;
+          case 'is':
+            return 'Информационни системи';
+            break;
+          case 'kn':
+            return 'Компютърни науки';
+            break;
+          case 'si':
+            return 'Софтуерно инженерство';
+            break;
+          case 'ad':
+            return 'Анализ на данни';
+            break;
+          case 'm':
+            return 'Математика';
+            break;
+          case 'pm':
+            return 'Приложна математика';
+            break;
+          case 's':
+            return 'Статистика';
+            break;
+          case 'mi':
+            return 'Математика и информатика';
+            break;
+          default:
+            throw new UnexpectedValueException('Invalid major value');
+            break;
+        }
+      },
+      explode(',', $this->targetMajors)
+    );
+    return implode(', ', $readableMajors);
   }
 
   public function setTargetMajors($targetMajors)
@@ -268,5 +293,26 @@ class Plan
   public function setBibliography($bibliography)
   {
     $this->bibliography = $bibliography;
+  }
+
+  // Private functions
+  ////////////////////
+  private function writeCell($section, $content, $pdf)
+  {
+    $pdf->SetFont('DejaVu-Bold', '', 12);
+    $pdf->Cell($pdf->GetStringWidth($section) + 5, 10, $section . ':', 0, 0);
+
+    $pdf->SetFont('DejaVu', '', 12);
+    $pdf->Cell(0, 10, $content, 0, 1);
+  }
+
+  private function writeText($section, $content, $pdf)
+  {
+    $pdf->SetFont('DejaVu-Bold', '', 12);
+    $pdf->Cell($pdf->GetStringWidth($section) + 5, 10, $section . ':', 0, 1);
+
+    $pdf->SetFont('DejaVu', '', 12);
+    $pdf->Write(5, $content);
+    $pdf->Ln();
   }
 }
