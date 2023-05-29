@@ -2,11 +2,14 @@
 <html>
 
 <head>
-  <title>Plans</title>
+  <meta charset="UTF-8">
+  <title>Учебни програми</title>
   <link rel="stylesheet" type="text/css" href="listPlans.css">
   <script src="listPlans.js"></script>
   <script src="../../modules/constants.js"></script>
 </head>
+
+<!-- TODO: limit colum width and show ... if content is too long -->
 
 <body>
   <h1>Учебни програми</h1>
@@ -15,10 +18,9 @@
   <table id="plans-table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Owner</th>
-        <th>Actions</th>
+        <th class='plan-name'>Дисциплина</th>
+        <th class='plan-owner'>Титуляр</th>
+        <th class='actions-cell' colspan="4">Още</th>
       </tr>
     </thead>
     <tbody id="plans-list"></tbody>

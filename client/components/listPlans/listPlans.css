@@ -1,3 +1,17 @@
+button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+
 #plans-table {
   width: 100%;
   border-collapse: collapse;
@@ -15,10 +29,12 @@
 }
 
 .plan-name {
-  font-weight: bold;
+  max-width: 20vw;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
-.actions-cell {
-  display: flex;
-  justify-content: space-evenly;
+.plan-owner {
+  max-width: 20vw;
 }
