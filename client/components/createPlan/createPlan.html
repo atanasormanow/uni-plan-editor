@@ -10,7 +10,13 @@
 </head>
 
 <body>
-  <h1>Създай учебна програма</h1>
+  <h1>~ Създай учебна програма ~</h1>
+
+  <form id="upload-json-form">
+    <button type="submit">Качи учебна програма като JSON</button>
+    <input type="file" id="file-input" accept=".json">
+  </form>
+
   <form id="plan-form">
     <label>Тип дисциплина:</label>
     <div class="radio-container">
@@ -48,7 +54,7 @@
     <label for="description">Анотация:</label>
     <textarea id="description" name="description"></textarea>
 
-    <label for="requiredSkills">Нужни познания:</label>
+    <label for="requiredSkills">Предварителни изисквания:</label>
     <textarea type="text" id="requiredSkills" name="requiredSkills"></textarea>
 
     <!-- TODO: some kind of drop down select list -->

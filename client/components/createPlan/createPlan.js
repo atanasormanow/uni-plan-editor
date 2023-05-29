@@ -1,8 +1,45 @@
 window.onload = () => {
   displayCheckboxes();
-  const form = document.getElementById('plan-form');
 
-  form.addEventListener('submit', (event) => {
+  document.getElementById('upload-json-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const file = document.getElementById('file-input').files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        // TODO: validate json fields
+        const jsonData = event.target.result;
+        fetch(
+          SERVER_CONTROLLERS + 'create_plan.php',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: jsonData
+          })
+          .then(response => {
+            if (response.ok) {
+              window.location.assign(CLIENT_COMPONENTS + 'listPlans/listPlans.html');
+            } else {
+              console.error("Failed to create plan");
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            console.error("Failed to create plan");
+          });
+      };
+
+      reader.readAsText(file);
+    }
+
+  })
+
+  document.getElementById('plan-form').addEventListener('submit', (event) => {
     event.preventDefault();
 
     const type = document.querySelector('input[name="type"]:checked').value;
@@ -67,3 +104,4 @@ function displayCheckboxes() {
     checkboxContainer.appendChild(label);
   }
 }
+
