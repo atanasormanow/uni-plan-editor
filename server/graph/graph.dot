@@ -1,0 +1,18 @@
+digraph {
+11 [label="FP"]
+12 [label="OOP"]
+13 [label="OOP"]
+14 [label="OOP"]
+15 [label="Kur"]
+16 [label="Kur"]
+17 [label="asdasd"]
+18 [label="KARH garbage"]
+19 [label="4isleni metodi"]
+20 [label="GNUS"]
+21 [label="Lambda Calculus and Proof Theory"]
+22 [label="Application programming interfaces for Cloud Architectures with AWS"]
+23 [label=" "]
+11 -> 12
+11 -> 13
+12 -> 14
+}

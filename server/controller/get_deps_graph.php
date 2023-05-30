@@ -14,9 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $edges = depEdges($deps);
   $dot_output = "digraph {\n" . $labels . $edges . "}";
 
-  $svgContent = file_get_contents("../graph/output.svg");
-  header('Content-type: image/svg+xml');
+  file_put_contents("../graph/graph.dot", $dot_output);
+  $svgContent = shell_exec("dot -Tsvg ../graph/graph.dot");
 
+  header('Content-type: image/svg+xml');
   echo $svgContent;
 }
 
@@ -34,8 +35,14 @@ function labelsFromPartialPlans($plans)
 {
   $labels = "";
   foreach ($plans as $row) {
-    $labels .= "{$row['id']} [label=\"{$row['name']}\"]\n";
+    $id = $row['id'];
+    $name = cleanStr($row['name']);
+    $labels .= "{$id} [label=\"{$name}\"]\n";
   }
 
   return $labels;
+}
+
+function cleanStr($string) {
+   return preg_replace('/[^A-Za-z0-9\-\s]/', '', $string);
 }
