@@ -1,6 +1,6 @@
 digraph {
-  a [label="Едно"]
-  b [label="Две"]
+  a [label="One"]
+  b [label="Two"]
   c [label="Три"]
   d [label="Кокошки"]
 

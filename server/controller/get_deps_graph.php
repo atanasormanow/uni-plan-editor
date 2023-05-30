@@ -5,7 +5,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $deps = Queries::getPlanDependencies();
   $plans = Queries::getPartialPlans();
 
-  if (!$deps or !$plans) {
+  if (!$deps) {
+    http_response_code(404);
+    exit(json_encode(["status" => "ERROR", "message" => "No dependencies"]));
+  } elseif (!$plans) {
     http_response_code(400);
     exit(json_encode(["status" => "ERROR", "message" => "Failed to get dependencies"]));
   }
@@ -15,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $dot_output = "digraph {\n" . $labels . $edges . "}";
 
   file_put_contents("../graph/graph.dot", $dot_output);
+  // TODO: use php library instead
   $svgContent = shell_exec("dot -Tsvg ../graph/graph.dot");
 
   header('Content-type: image/svg+xml');
@@ -43,6 +47,7 @@ function labelsFromPartialPlans($plans)
   return $labels;
 }
 
-function cleanStr($string) {
-   return preg_replace('/[^A-Za-z0-9\-\s]/', '', $string);
+function cleanStr($string)
+{
+  return preg_replace('/[^\w\s\-\x{0410}-\x{042F}\x{0430}-\x{044F}]/u', '', $string);
 }

@@ -11,7 +11,7 @@ digraph {
 20 [label="GNUS"]
 21 [label="Lambda Calculus and Proof Theory"]
 22 [label="Application programming interfaces for Cloud Architectures with AWS"]
-23 [label=" "]
+23 [label="Компютърна графика"]
 12 -> 11
 13 -> 11
 14 -> 12

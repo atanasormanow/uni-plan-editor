@@ -5,6 +5,12 @@ window.onload = function() {
       window.location.assign(CLIENT_COMPONENTS + 'createPlan/createPlan.html');
     });
 
+  document
+    .getElementById("to-dep-graph")
+    .addEventListener('click', (_event) => {
+      window.location.assign(SERVER_CONTROLLERS + 'get_deps_graph.php');
+    });
+
   fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
     .then(response => response.json())
     .then(({ data }) => displayPlans(JSON.parse(data)))
@@ -31,21 +37,18 @@ function displayPlans(plans) {
     columnApender(plan.owner, 'plan-owner');
 
     const deleteCell = document.createElement('td');
-    const deleteAnchor = document.createElement('a');
-    deleteAnchor.textContent = 'Изтрий';
-    deleteAnchor.href =
-      CLIENT_COMPONENTS
-      + 'delete_plan.php?'
-      + new URLSearchParams({ id: plan.id });
-    deleteCell.appendChild(deleteAnchor);
+    deleteCell.textContent = 'Изтрий';
+    deleteCell.style.textDecoration = 'underline';
+    deleteCell.style.color = 'blue';
+    deleteCell.style.cursor = 'pointer';
+    deleteCell.addEventListener('click', deletePlan.bind(this, plan));
     row.appendChild(deleteCell);
 
     const editCell = document.createElement('td');
     const editAnchor = document.createElement('a');
     editAnchor.textContent = 'Редактирай';
     editAnchor.href =
-      CLIENT_COMPONENTS
-      + 'editPlan/editPlan.html?'
+      CLIENT_COMPONENTS + 'editPlan/editPlan.html?'
       + new URLSearchParams({ id: plan.id });
     editCell.appendChild(editAnchor);
     row.appendChild(editCell);
@@ -54,30 +57,42 @@ function displayPlans(plans) {
     const viewAnchor = document.createElement('a');
     viewAnchor.textContent = 'PDF';
     viewAnchor.href =
-      SERVER_CONTROLLERS
-      + 'get_pdf.php?'
+      SERVER_CONTROLLERS + 'get_pdf.php?'
       + new URLSearchParams({ id: plan.id });
     viewCell.appendChild(viewAnchor);
     row.appendChild(viewCell);
 
     const exportCell = document.createElement('td');
-    const exportAnchor = document.createElement('a');
-    exportAnchor.textContent = 'JSON';
-    exportAnchor.style.textDecoration = 'underline';
-    exportAnchor.style.color = 'blue';
-    exportAnchor.style.cursor = 'pointer';
-    exportAnchor.addEventListener('click', exportJSON);
-    exportCell.appendChild(exportAnchor);
+    exportCell.textContent = 'JSON';
+    exportCell.style.textDecoration = 'underline';
+    exportCell.style.color = 'blue';
+    exportCell.style.cursor = 'pointer';
+    exportCell.addEventListener('click', exportJSON.bind(this, plan));
     row.appendChild(exportCell);
 
     plansList.appendChild(row);
   });
 }
 
-function exportJSON() {
+function deletePlan(plan) {
   fetch(
-    SERVER_CONTROLLERS
-    + 'get_plan.php?'
+    SERVER_CONTROLLERS + 'delete_plan.php?'
+    + new URLSearchParams({ id: plan.id }),
+    { method: 'DELETE' }
+  )
+    .then(response => {
+      if (response.ok) {
+        location.reload();
+      }
+    }).catch(error => {
+      console.error('Error:', error);
+      console.error('Failed to delete plan');
+    });
+}
+
+function exportJSON(plan) {
+  fetch(
+    SERVER_CONTROLLERS + 'get_plan.php?'
     + new URLSearchParams({ id: plan.id })
   )
     .then(response => response.json())
