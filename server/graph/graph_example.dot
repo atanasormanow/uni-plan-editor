@@ -1,0 +1,9 @@
+digraph {
+  a [label="Едно"]
+  b [label="Две"]
+  c [label="Три"]
+  d [label="Кокошки"]
+
+  a -> {b, c, d}
+  b -> c
+}

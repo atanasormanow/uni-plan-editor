@@ -82,12 +82,12 @@ class Queries
     }
   }
 
-  public static function getAllPlans()
+  public static function getPartialPlans()
   {
     $db = getDatabaseConnection();
 
     $query = "
-    SELECT subject_plans.id, name, description, username AS owner
+    SELECT subject_plans.id, name, username AS owner
     FROM `subject_plans`
     LEFT JOIN `users`
     ON subject_plans.owner = users.id;
@@ -98,7 +98,21 @@ class Queries
     while ($row = $result->fetch_assoc()) {
       $rows[] = $row;
     }
-    return json_encode($rows);
+    return $rows;
+  }
+
+  public static function getPlanDependencies()
+  {
+    $db = getDatabaseConnection();
+
+    $result = $db->query("SELECT * FROM plans_plans");
+
+    $rows = array();
+    while ($row = $result->fetch_assoc()) {
+      $rows[] = $row;
+    }
+
+    return $rows;
   }
 
   public static function createPlan(
