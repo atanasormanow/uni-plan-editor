@@ -5,12 +5,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $deps = Queries::getPlanDependencies();
   $plans = Queries::getPartialPlans();
 
-  if (!$deps) {
-    http_response_code(404);
-    exit(json_encode(["status" => "ERROR", "message" => "No dependencies"]));
-  } elseif (!$plans) {
+  if (!$plans) {
     http_response_code(400);
-    exit(json_encode(["status" => "ERROR", "message" => "Failed to get dependencies"]));
+    exit(json_encode(["status" => "ERROR", "message" => "Failed to build dependency graph"]));
   }
 
   $labels = labelsFromPartialPlans($plans);
