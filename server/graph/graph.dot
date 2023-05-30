@@ -12,7 +12,7 @@ digraph {
 21 [label="Lambda Calculus and Proof Theory"]
 22 [label="Application programming interfaces for Cloud Architectures with AWS"]
 23 [label=" "]
-11 -> 12
-11 -> 13
-12 -> 14
+12 -> 11
+13 -> 11
+14 -> 12
 }

@@ -25,7 +25,7 @@ function depEdges($deps)
 {
   $edges = "";
   foreach ($deps as $row) {
-    $edges .= "{$row['plan_id_main']} -> {$row['plan_id_dependency']}\n";
+    $edges .= "{$row['plan_id_dependency']} -> {$row['plan_id_main']}\n";
   }
 
   return $edges;
