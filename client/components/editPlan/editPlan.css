@@ -6,6 +6,7 @@
 }
 
 body {
+  font-size: 150%;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 20px;
@@ -17,7 +18,7 @@ h1 {
 }
 
 form {
-  width: 400px;
+  width: 40vw;
   margin: 0 auto;
 }
 
@@ -29,6 +30,7 @@ label {
 
 input[type="text"],
 textarea {
+  font-size: 100%;
   width: 100%;
   padding: 5px;
   margin-bottom: 10px;
@@ -55,6 +57,7 @@ textarea {
 }
 
 .radio-container input[type="radio"] {
+  transform: scale(1.5);
   margin-bottom: 5px;
 }
 
@@ -69,11 +72,14 @@ textarea {
 }
 
 .checkbox-container input[type="checkbox"] {
+  transform: scale(1.5);
   margin-right: 5px;
+  margin-top: 0.4pc;
   float: left;
 }
 
 button[type="submit"] {
+  font-size: 80%;
   margin-bottom: 10px;
   padding: 10px 20px;
   background-color: #4CAF50;
