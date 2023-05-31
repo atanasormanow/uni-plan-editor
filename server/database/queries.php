@@ -129,6 +129,7 @@ class Queries
     $examSynopsis,
     $bibliography,
     $owner,
+    $dependencies
   ) {
     $db = getDatabaseConnection();
 
@@ -171,22 +172,33 @@ class Queries
     )";
 
     if ($db->query($query)) {
-      return new Plan(
-        $db->insert_id,
-        $owner_id,
-        $type,
-        $targetMajors,
-        $name,
-        $department,
-        $busyness,
-        $credits,
-        $description,
-        $requiredSkills,
-        $aquiredSkills,
-        $contents,
-        $examSynopsis,
-        $bibliography,
-      );
+      $depsQuery = "INSERT INTO plans_plans (plan_id_main, plan_id_dependency) VALUES ";
+      foreach ($dependencies as $dep_id) {
+        $dep_id = $db->real_escape_string($dep_id);
+        $depsQuery .= "({$db->insert_id}, {$dep_id}),";
+      }
+      $depsQuery = rtrim($depsQuery, ',');
+
+      if ($db->query($depsQuery)) {
+        return new Plan(
+          $db->insert_id,
+          $owner_id,
+          $type,
+          $targetMajors,
+          $name,
+          $department,
+          $busyness,
+          $credits,
+          $description,
+          $requiredSkills,
+          $aquiredSkills,
+          $contents,
+          $examSynopsis,
+          $bibliography,
+        );
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -208,6 +220,7 @@ class Queries
     $examSynopsis,
     $bibliography,
     $owner,
+    $dependencies,
   ) {
     $db = getDatabaseConnection();
 
@@ -240,30 +253,43 @@ class Queries
 
     // TODO: make sure the column types match
     $query = "
-  UPDATE subject_plans
-  SET type='$type', target_majors='$targetMajors', name='$name', department='$department',
-  busyness='$busyness', credits='$credits', description='$description', required_skills='$requiredSkills',
-  aquired_skills='$aquiredSkills', contents='$contents', exam_synopsis='$examSynopsis',
-  bibliography='$bibliography', owner='$owner_id'
-  WHERE id='$planId'";
+      UPDATE subject_plans
+      SET type='$type', target_majors='$targetMajors', name='$name', department='$department',
+          busyness='$busyness', credits='$credits', description='$description', required_skills='$requiredSkills',
+          aquired_skills='$aquiredSkills', contents='$contents', exam_synopsis='$examSynopsis',
+          bibliography='$bibliography', owner='$owner_id'
+      WHERE id='$planId'
+    ";
 
     if ($db->query($query)) {
-      return new Plan(
-        $planId,
-        $owner_id,
-        $type,
-        $targetMajors,
-        $name,
-        $department,
-        $busyness,
-        $credits,
-        $description,
-        $requiredSkills,
-        $aquiredSkills,
-        $contents,
-        $examSynopsis,
-        $bibliography,
-      );
+      $depsQuery = "INSERT INTO plans_plans (plan_id_main, plan_id_dependency) VALUES ";
+      foreach ($dependencies as $dep_id) {
+        $dep_id = $db->real_escape_string($dep_id);
+        error_log($dep_id);
+        $depsQuery .= "({$planId}, {$dep_id}),";
+      }
+      $depsQuery = rtrim($depsQuery, ',');
+
+      if ($db->query($depsQuery)) {
+        return new Plan(
+          $planId,
+          $owner_id,
+          $type,
+          $targetMajors,
+          $name,
+          $department,
+          $busyness,
+          $credits,
+          $description,
+          $requiredSkills,
+          $aquiredSkills,
+          $contents,
+          $examSynopsis,
+          $bibliography,
+        );
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $examSynopsis = $data['examSynopsis'];
   $bibliography = $data['bibliography'];
   $owner = $data['owner'];
+  $dependencies = $data['dependencies'];
 
   $plan = Queries::createPlan(
     $type,
@@ -33,13 +34,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $examSynopsis,
     $bibliography,
     $owner,
+    $dependencies
   );
 
   if (!$plan) {
     http_response_code(400);
-    exit(json_encode(["status" => "ERROR", "message" => "Failed to create plan"]));
+    exit(json_encode([
+      "status" => "ERROR",
+      "message" => "Failed to create plan"
+    ]));
   }
 
   http_response_code(200);
-  exit(json_encode(["status" => "SUCCESS", "message" => "Successfully logged in", "plan_id" => $plan->getPlanId()]));
+  exit(json_encode([
+    "status" => "SUCCESS",
+    "message" => "Successfully created a plan",
+    "plan_id" => $plan->getPlanId()
+  ]));
 }

@@ -1,6 +1,35 @@
+let dependencies = {};
+
 window.onload = () => {
   displayCheckboxes();
+  handleJSONUpload();
+  handlePlanCreation();
 
+  fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
+    .then(response => response.json())
+    .then(({ data }) => fillSelect(JSON.parse(data)))
+    .catch(error => console.error('Error:', error));
+
+};
+
+function displayCheckboxes() {
+  const checkboxContainer = document.getElementById('target-majors');
+
+  for (const key in FMI_MAJORS) {
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.name = 'majors';
+    checkbox.value = key;
+
+    const label = document.createElement('label');
+    label.textContent = FMI_MAJORS[key];
+    label.appendChild(checkbox);
+
+    checkboxContainer.appendChild(label);
+  }
+}
+
+function handleJSONUpload() {
   document.getElementById('upload-json-form').addEventListener('submit', (event) => {
     event.preventDefault();
 
@@ -33,15 +62,16 @@ window.onload = () => {
             console.error("Failed to create plan");
           });
       };
-
       reader.readAsText(file);
     }
-
   })
+}
 
+function handlePlanCreation() {
   document.getElementById('plan-form').addEventListener('submit', (event) => {
     event.preventDefault();
 
+    // TODO: use a map and a function to fill it
     const type = document.querySelector('input[name="type"]:checked').value;
     const name = document.getElementById('name').value;
     const department = document.getElementById('department').value;
@@ -55,13 +85,16 @@ window.onload = () => {
     const contents = document.getElementById('contents').value;
     const examSynopsis = document.getElementById('examSynopsis').value;
     const bibliography = document.getElementById('bibliography').value;
-    const targetMajors =
-      Array.from(document.querySelectorAll('input[name="majors"]:checked'))
-        .map(checkbox => checkbox.value);
+
+    const selectedMajors = document.querySelectorAll('input[name="majors"]:checked')
+    const targetMajors = Array.from(selectedMajors).map(checkbox => checkbox.value);
+
+    const selectedDeps = document.getElementById('dependencies').selectedOptions;
+    const dependencies = Array.from(selectedDeps).map(option => option.value);
 
     const formData = {
       type, name, department, owner, busyness, credits, description,
-      requiredSkills, aquiredSkills, contents, examSynopsis, bibliography,
+      requiredSkills, dependencies, aquiredSkills, contents, examSynopsis, bibliography,
       targetMajors
     };
 
@@ -76,7 +109,7 @@ window.onload = () => {
       })
       .then(response => {
         if (response.ok) {
-          window.location.assign(CLIENT_COMPONENTS + 'listPlans/listPlans.html');
+          // window.location.assign(CLIENT_COMPONENTS + 'listPlans/listPlans.html');
         } else {
           console.error("Failed to create plan");
         }
@@ -86,22 +119,16 @@ window.onload = () => {
         console.error("Failed to create plan");
       });
   });
-};
-
-function displayCheckboxes() {
-  const checkboxContainer = document.getElementById('target-majors');
-
-  for (const key in FMI_MAJORS) {
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.name = 'majors';
-    checkbox.value = key;
-
-    const label = document.createElement('label');
-    label.textContent = FMI_MAJORS[key];
-    label.appendChild(checkbox);
-
-    checkboxContainer.appendChild(label);
-  }
 }
 
+function fillSelect(plans) {
+  const depSelect = document.getElementById('dependencies');
+
+  plans.forEach(plan => {
+    const option = document.createElement('option');
+    option.value = plan.id;
+    option.textContent = plan.name;
+
+    depSelect.appendChild(option);
+  });
+}

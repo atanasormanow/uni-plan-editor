@@ -38,7 +38,7 @@ function labelsFromPartialPlans($plans)
   foreach ($plans as $row) {
     $id = $row['id'];
     $name = cleanStr($row['name']);
-    $labels .= "{$id} [label=\"{$name}\", shape=\"r\"]\n";
+    $labels .= "{$id} [label=\"{$name}\", shape=\"box\"]\n";
   }
 
   return $labels;
