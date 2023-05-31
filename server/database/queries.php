@@ -24,7 +24,10 @@ class Queries
     $password = $db->real_escape_string($password);
     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-    $sql = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
+    $sql = "
+    INSERT INTO users (username, password)
+    VALUES ('$username', '$hashed_password')
+    ";
     if ($db->query($sql)) {
       return new User($db->insert_id, $username, $password);
     } else {
@@ -69,7 +72,10 @@ class Queries
     $db = getDatabaseConnection();
     $username = $db->real_escape_string($username);
 
-    $sql = "SELECT id, username, password FROM users WHERE username = '$username'";
+    $sql = "
+    SELECT id, username, password FROM users
+    WHERE username = '$username'
+    ";
     $result = $db->query($sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -172,14 +178,16 @@ class Queries
     )";
 
     if ($db->query($query)) {
-      $depsQuery = "INSERT INTO plans_plans (plan_id_main, plan_id_dependency) VALUES ";
+      $newDepsQuery =
+        "INSERT INTO plans_plans (plan_id_main, plan_id_dependency) VALUES ";
+
       foreach ($dependencies as $dep_id) {
         $dep_id = $db->real_escape_string($dep_id);
-        $depsQuery .= "({$db->insert_id}, {$dep_id}),";
+        $newDepsQuery .= "({$db->insert_id}, {$dep_id}),";
       }
-      $depsQuery = rtrim($depsQuery, ',');
+      $newDepsQuery = rtrim($newDepsQuery, ',');
 
-      if ($db->query($depsQuery)) {
+      if ($db->query($newDepsQuery)) {
         return new Plan(
           $db->insert_id,
           $owner_id,
@@ -253,24 +261,30 @@ class Queries
 
     // TODO: make sure the column types match
     $query = "
-      UPDATE subject_plans
-      SET type='$type', target_majors='$targetMajors', name='$name', department='$department',
-          busyness='$busyness', credits='$credits', description='$description', required_skills='$requiredSkills',
-          aquired_skills='$aquiredSkills', contents='$contents', exam_synopsis='$examSynopsis',
-          bibliography='$bibliography', owner='$owner_id'
-      WHERE id='$planId'
+    UPDATE subject_plans
+    SET type='$type', target_majors='$targetMajors', name='$name',
+        department='$department', busyness='$busyness', credits='$credits',
+        description='$description', required_skills='$requiredSkills',
+        aquired_skills='$aquiredSkills', contents='$contents',
+        exam_synopsis='$examSynopsis', bibliography='$bibliography',
+        owner='$owner_id'
+    WHERE id='$planId'
     ";
 
     if ($db->query($query)) {
-      $depsQuery = "INSERT INTO plans_plans (plan_id_main, plan_id_dependency) VALUES ";
+      $db->query("DELETE FROM plans_plans WHERE plan_id_main='$planId'");
+
+      $newDepsQuery =
+        "INSERT INTO plans_plans (plan_id_main, plan_id_dependency) VALUES ";
+
       foreach ($dependencies as $dep_id) {
         $dep_id = $db->real_escape_string($dep_id);
         error_log($dep_id);
-        $depsQuery .= "({$planId}, {$dep_id}),";
+        $newDepsQuery .= "({$planId}, {$dep_id}),";
       }
-      $depsQuery = rtrim($depsQuery, ',');
+      $newDepsQuery = rtrim($newDepsQuery, ',');
 
-      if ($db->query($depsQuery)) {
+      if ($db->query($newDepsQuery)) {
         return new Plan(
           $planId,
           $owner_id,

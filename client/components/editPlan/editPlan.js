@@ -32,7 +32,8 @@ window.onload = () => {
     };
 
     fetch(
-      SERVER_CONTROLLERS + 'edit_plan.php?' + new URLSearchParams({ id: planId }),
+      SERVER_CONTROLLERS + 'edit_plan.php?'
+      + new URLSearchParams({ id: planId }),
       {
         method: 'PUT',
         headers: {
@@ -99,6 +100,12 @@ function fillForm(form) {
       form.examSynopsis.value = editedPlan.examSynopsis;
       form.bibliography.value = editedPlan.bibliography;
 
+
+      fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
+        .then(response => response.json())
+        .then(({ data }) => fillFormWithDeps(form, editedPlan, JSON.parse(data)))
+        .catch(error => console.error('Error:', error));
+
       const targetMajors = editedPlan.targetMajors.split(',');
       const majorsCheckboxes = document.getElementById('target-majors');
       const checkboxInputs = majorsCheckboxes.querySelectorAll('input');
@@ -115,5 +122,14 @@ function fillForm(form) {
       }
 
     })
+}
 
+function fillFormWithDeps(form, editedPlan, plans) {
+  plans.forEach(plan => {
+    const option = document.createElement('option');
+    option.textContent = plan.name;
+    option.selected = editedPlan.dependencies.includes(plan.id);
+
+    form.dependencies.appendChild(option);
+  });
 }

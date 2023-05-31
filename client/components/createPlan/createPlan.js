@@ -109,7 +109,7 @@ function handlePlanCreation() {
       })
       .then(response => {
         if (response.ok) {
-          // window.location.assign(CLIENT_COMPONENTS + 'listPlans/listPlans.html');
+          window.location.assign(CLIENT_COMPONENTS + 'listPlans/listPlans.html');
         } else {
           console.error("Failed to create plan");
         }

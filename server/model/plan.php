@@ -16,7 +16,7 @@ class Plan
   private $credits;
   private $description;
   private $requiredSkills;
-  private $dependencies; // TODO
+  private $dependencies;
   private $aquiredSkills;
   private $contents;
   private $examSynopsis;
@@ -53,12 +53,19 @@ class Plan
     $this->examSynopsis = $examSynopsis;
     $this->bibliography = $bibliography;
 
-    $owner_db = Queries::getUserById($owner_id);
-    if (!$owner_db) {
+    $ownerFromDb = Queries::getUserById($owner_id);
+    if (!$ownerFromDb) {
       throw new PDOException("Invalid owner! Failed to construct Plan object");
     }
 
-    $this->owner = $owner_db->getUsername();
+    $this->owner = $ownerFromDb->getUsername();
+
+    $this->dependencies = array();
+    foreach (Queries::getPlanDependencies() as $row) {
+      if ($row['plan_id_main'] === $planId) {
+        array_push($this->dependencies, $row['plan_id_dependency']);
+      }
+    }
   }
 
   public function generatePDF()

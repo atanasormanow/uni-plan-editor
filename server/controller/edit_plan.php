@@ -35,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "PUT") {
     $examSynopsis,
     $bibliography,
     $owner,
+    $dependencies
   );
 
   if (!$plan) {
