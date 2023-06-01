@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "PUT") {
   $examSynopsis = $data['examSynopsis'];
   $bibliography = $data['bibliography'];
   $owner = $data['owner'];
+  $dependencies = $data['dependencies'];
 
   $plan = Queries::editPlan(
     $planId,

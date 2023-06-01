@@ -279,7 +279,6 @@ class Queries
 
       foreach ($dependencies as $dep_id) {
         $dep_id = $db->real_escape_string($dep_id);
-        error_log($dep_id);
         $newDepsQuery .= "({$planId}, {$dep_id}),";
       }
       $newDepsQuery = rtrim($newDepsQuery, ',');
