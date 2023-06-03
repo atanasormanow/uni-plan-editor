@@ -1,3 +1,16 @@
+#register-form {
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  align-items: center;
+}
+
+#error-message {
+  color: red;
+  display: none;
+}
+
 body {
   font-family: Arial, sans-serif;
 }
@@ -24,6 +37,7 @@ input {
   margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-size: 150%;
 }
 
 button {
@@ -33,6 +47,8 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 150%;
+  width: 200px;
 }
 
 button:hover {

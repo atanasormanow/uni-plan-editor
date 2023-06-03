@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $dot_output = "digraph {\n" . $labels . $edges . "}";
 
   file_put_contents("../graph/graph.dot", $dot_output);
-  // TODO: use php library instead
   $svgContent = shell_exec("dot -Tsvg ../graph/graph.dot");
 
   header('Content-type: image/svg+xml');

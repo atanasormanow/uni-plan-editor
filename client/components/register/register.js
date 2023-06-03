@@ -6,6 +6,7 @@ window.onload = () => {
 
     const username = registerForm[0].value;
     const password = registerForm[1].value;
+    const errorMsg = document.getElementById('error-message');
 
     fetch(
       SERVER_CONTROLLERS + 'user_register.php',
@@ -21,10 +22,13 @@ window.onload = () => {
       })
       .then(response => response.json())
       .then(data => {
-        if (data.success) {
+        if (data.status === 'SUCCESS') {
           localStorage.setItem('username', username);
+          window.location.assign(CLIENT_COMPONENTS + 'listPlans/listPlans.html');
         } else {
-          loginErrorMsg.textContent = data.message;
+          console.error("Failed to register user")
+          errorMsg.textContent = data.message;
+          errorMsg.style.display = 'block';
         }
       })
       .catch(error => {

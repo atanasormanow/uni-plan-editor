@@ -35,6 +35,17 @@ class Queries
     }
   }
 
+  public static function userExists($username)
+  {
+    $db = getDatabaseConnection();
+    $username = $db->real_escape_string($username);
+
+    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $result = $db->query($sql);
+
+    return mysqli_num_rows($result) > 0;
+  }
+
   public static function verifyUser($username, $password)
   {
     $db = getDatabaseConnection();
@@ -44,10 +55,17 @@ class Queries
     $sql = "SELECT id, password FROM users WHERE username = '$username'";
     $result = $db->query($sql);
 
-    if (mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) === 1) {
       $row = mysqli_fetch_assoc($result);
 
-      (bool)password_verify($password, $row['password']);
+      error_log($password);
+      error_log($row['password']);
+
+      if (password_verify($password, $row['password'])) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
