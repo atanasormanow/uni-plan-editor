@@ -1,14 +1,35 @@
 window.onload = function() {
   document
-    .getElementById("create-plan-button")
+    .getElementById('create-plan-button')
     .addEventListener('click', (_event) => {
       window.location.assign(CLIENT_COMPONENTS + 'createPlan/createPlan.html');
     });
 
   document
-    .getElementById("to-dep-graph")
+    .getElementById('to-dep-graph')
     .addEventListener('click', (_event) => {
       window.location.assign(SERVER_CONTROLLERS + 'get_deps_graph.php');
+    });
+
+  document
+    .getElementById('username')
+    .textContent = localStorage.getItem('username');
+
+  document
+    .getElementById('logout-button')
+    .addEventListener('click', (_event) => {
+      fetch(SERVER_CONTROLLERS + 'user_logout.php', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          if (data.status === 'SUCCESS') {
+            localStorage.removeItem('username');
+            window.location.assign(CLIENT_COMPONENTS + '../index.html');
+          } else {
+            console.error('Failed to logout!?');
+          }
+        })
+        .catch(error => console.log('Error: ', error));
     });
 
   fetch(SERVER_CONTROLLERS + 'get_all_plans.php')

@@ -12,7 +12,16 @@
 <!-- TODO: limit colum width and show ... if content is too long -->
 
 <body>
-  <h1>Учебни програми</h1>
+  <div class="header-row">
+    <h1>Учебни програми</h1>
+    <div id="logout">
+      <div>
+        <img src="../../resources/user_icon.png" width="30pc" height="30pc" alt="user: ">
+        <label id="username"></label>
+      </div>
+      <button id="logout-button">Излез</button>
+    </div>
+  </div>
   <button id="create-plan-button">Създай учебна програма</button>
   <button id="to-dep-graph">Виж граф на зависимостите</button>
   <br></br>
