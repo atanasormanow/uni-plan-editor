@@ -4,7 +4,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     unset($_SESSION["user"]);
     session_destroy();
 
-    error_log("I am here");
     http_response_code(200);
     exit(json_encode(["status" => "SUCCESS", "message" => "Successfull logout"]));
 }
