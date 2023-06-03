@@ -1,5 +1,5 @@
 <?php
-require('../tfpdf/tfpdf.php');
+require('../lib/tfpdf/tfpdf.php');
 
 // TODO: maybe its better if the constructor creates a plan in the db.
 // Now it's the other way around - queries select a row and return a model.
