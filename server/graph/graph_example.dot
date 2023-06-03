@@ -1,9 +1,0 @@
-digraph {
-  a [label="One"]
-  b [label="Two"]
-  c [label="Три"]
-  d [label="Кокошки"]
-
-  a -> {b, c, d}
-  b -> c
-}

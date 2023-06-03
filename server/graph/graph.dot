@@ -1,18 +1,29 @@
 digraph {
-11 [label="FP"]
-12 [label="OOP"]
-13 [label="OOP"]
-14 [label="OOP"]
-15 [label="Kur"]
-16 [label="Kur"]
-17 [label="asdasd"]
-18 [label="KARH garbage"]
-19 [label="4isleni metodi"]
-20 [label="GNUS"]
-21 [label="Lambda Calculus and Proof Theory"]
-22 [label="Application programming interfaces for Cloud Architectures with AWS"]
-23 [label="Компютърна графика"]
-12 -> 11
-13 -> 11
-14 -> 12
+11 [label="FP", shape="box"]
+20 [label="GNUS", shape="box"]
+21 [label="Lambda Calculus and Proof Theory", shape="box"]
+22 [label="Application programming interfaces for Cloud Architectures with AWS", shape="box"]
+23 [label="Компютърна графика", shape="box"]
+24 [label="Линейна алгебра", shape="box"]
+25 [label="Функционално програмиране с Elixir", shape="box"]
+26 [label="Статистика", shape="box"]
+29 [label="ОС", shape="box"]
+30 [label="УП", shape="box"]
+32 [label="Системно програмиране", shape="box"]
+33 [label="Теория на множествата", shape="box"]
+34 [label="Дискретни структури", shape="box"]
+35 [label="Математическа логика", shape="box"]
+37 [label="Дизайн и анализ на алгоритми", shape="box"]
+24 -> 11
+30 -> 11
+34 -> 11
+29 -> 20
+11 -> 21
+24 -> 21
+30 -> 21
+34 -> 21
+11 -> 37
+24 -> 37
+30 -> 37
+34 -> 37
 }
