@@ -58,9 +58,6 @@ class Queries
     if (mysqli_num_rows($result) === 1) {
       $row = mysqli_fetch_assoc($result);
 
-      error_log($password);
-      error_log($row['password']);
-
       if (password_verify($password, $row['password'])) {
         return true;
       } else {
