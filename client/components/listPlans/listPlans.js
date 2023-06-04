@@ -29,13 +29,13 @@ window.onload = function() {
             console.error('Failed to logout!?');
           }
         })
-        .catch(error => console.log('Error: ', error));
+        .catch(error => console.log(error));
     });
 
   fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
     .then(response => response.json())
     .then(({ data }) => displayPlans(JSON.parse(data)))
-    .catch(error => console.error('Error:', error));
+    .catch(error => console.error(error));
 };
 
 function addColumn(toRow, textContent, className) {
@@ -106,7 +106,7 @@ function deletePlan(plan) {
         location.reload();
       }
     }).catch(error => {
-      console.error('Error:', error);
+      console.error(error);
       console.error('Failed to delete plan');
     });
 }
@@ -130,7 +130,7 @@ function exportJSON(plan) {
       URL.revokeObjectURL(link.href);
     })
     .catch(error => {
-      console.error('Error:', error);
+      console.error(error);
       console.error('Failed to fetch JSON data.');
     });
 }
