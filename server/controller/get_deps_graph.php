@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $edges = depEdges($deps);
   $dot_output = "digraph {\n" . $labels . $edges . "}";
 
+  // TODO: use local graphviz library
   file_put_contents("../graph/graph.dot", $dot_output);
   $svgContent = shell_exec("dot -Tsvg ../graph/graph.dot");
 

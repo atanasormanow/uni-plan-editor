@@ -2,18 +2,21 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="./styles.css" />
+  <meta charset="UTF-8">
 </head>
 
-<!-- TODO: Show logout button and username if logged in -->
-
 <body>
-  <form method="POST" action="components/login/login.html">
-    <button type="submit">Login</button>
-  </form>
-  <form method="POST" action="components/register/register.html">
-    <button type="submit">Register</button>
-  </form>
+  <div class="form-container">
+    <h1>Редактор и генератор на учебна програма във ФМИ и съставяне на граф на зависимостите</h1>
+    <form method="POST" action="components/login/login.html">
+      <button type="submit">Login</button>
+    </form>
+    <label class="or-label">or</label>
+    <form method="POST" action="components/register/register.html">
+      <button type="submit">Register</button>
+    </form>
+  </div>
 </body>
 
 </html>

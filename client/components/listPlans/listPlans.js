@@ -33,9 +33,15 @@ window.onload = function() {
     });
 
   fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        window.location.assign(CLIENT_COMPONENTS + 'login/login.html')
+      }
+    })
     .then(({ data }) => displayPlans(JSON.parse(data)))
-    .catch(error => console.error(error));
+    .catch(error => console.error(error)); // here the error is from the json.parse
 };
 
 function addColumn(toRow, textContent, className) {
@@ -48,50 +54,52 @@ function addColumn(toRow, textContent, className) {
 function displayPlans(plans) {
   const plansList = document.getElementById('plans-list');
 
-  // TODO: abstract get requests in function with callback for success/failure
   // TODO: abstract anchor creation under 'td'
   plans.forEach(plan => {
-    const row = document.createElement('tr');
-    const columnApender = addColumn.bind(this, row);
+    // TODO: make an endpoint that returns only the current user's plans
+    if (plan.owner === localStorage.getItem('username')) {
+      const row = document.createElement('tr');
+      const columnApender = addColumn.bind(this, row);
 
-    columnApender(plan.name, 'plan-name');
-    columnApender(plan.owner, 'plan-owner');
+      columnApender(plan.name, 'plan-name');
+      columnApender(plan.owner, 'plan-owner');
 
-    const deleteCell = document.createElement('td');
-    deleteCell.textContent = 'Изтрий';
-    deleteCell.style.textDecoration = 'underline';
-    deleteCell.style.color = 'blue';
-    deleteCell.style.cursor = 'pointer';
-    deleteCell.addEventListener('click', deletePlan.bind(this, plan));
-    row.appendChild(deleteCell);
+      const deleteCell = document.createElement('td');
+      deleteCell.textContent = 'Изтрий';
+      deleteCell.style.textDecoration = 'underline';
+      deleteCell.style.color = 'blue';
+      deleteCell.style.cursor = 'pointer';
+      deleteCell.addEventListener('click', deletePlan.bind(this, plan));
+      row.appendChild(deleteCell);
 
-    const editCell = document.createElement('td');
-    const editAnchor = document.createElement('a');
-    editAnchor.textContent = 'Редактирай';
-    editAnchor.href =
-      CLIENT_COMPONENTS + 'editPlan/editPlan.html?'
-      + new URLSearchParams({ id: plan.id });
-    editCell.appendChild(editAnchor);
-    row.appendChild(editCell);
+      const editCell = document.createElement('td');
+      const editAnchor = document.createElement('a');
+      editAnchor.textContent = 'Редактирай';
+      editAnchor.href =
+        CLIENT_COMPONENTS + 'editPlan/editPlan.html?'
+        + new URLSearchParams({ id: plan.id });
+      editCell.appendChild(editAnchor);
+      row.appendChild(editCell);
 
-    const viewCell = document.createElement('td');
-    const viewAnchor = document.createElement('a');
-    viewAnchor.textContent = 'PDF';
-    viewAnchor.href =
-      SERVER_CONTROLLERS + 'get_pdf.php?'
-      + new URLSearchParams({ id: plan.id });
-    viewCell.appendChild(viewAnchor);
-    row.appendChild(viewCell);
+      const viewCell = document.createElement('td');
+      const viewAnchor = document.createElement('a');
+      viewAnchor.textContent = 'PDF';
+      viewAnchor.href =
+        SERVER_CONTROLLERS + 'get_pdf.php?'
+        + new URLSearchParams({ id: plan.id });
+      viewCell.appendChild(viewAnchor);
+      row.appendChild(viewCell);
 
-    const exportCell = document.createElement('td');
-    exportCell.textContent = 'JSON';
-    exportCell.style.textDecoration = 'underline';
-    exportCell.style.color = 'blue';
-    exportCell.style.cursor = 'pointer';
-    exportCell.addEventListener('click', exportJSON.bind(this, plan));
-    row.appendChild(exportCell);
+      const exportCell = document.createElement('td');
+      exportCell.textContent = 'JSON';
+      exportCell.style.textDecoration = 'underline';
+      exportCell.style.color = 'blue';
+      exportCell.style.cursor = 'pointer';
+      exportCell.addEventListener('click', exportJSON.bind(this, plan));
+      row.appendChild(exportCell);
 
-    plansList.appendChild(row);
+      plansList.appendChild(row);
+    }
   });
 }
 

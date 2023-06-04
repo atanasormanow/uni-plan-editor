@@ -72,11 +72,10 @@ function handlePlanCreation() {
     event.preventDefault();
 
     // TODO: use a map and a function to fill it
+    const owner = localStorage.getItem('username');
     const type = document.querySelector('input[name="type"]:checked').value;
     const name = document.getElementById('name').value;
     const department = document.getElementById('department').value;
-    // TODO: owner = logged in user's username
-    const owner = document.getElementById('owner').value;
     const busyness = document.getElementById('busyness').value;
     const credits = document.getElementById('credits').value;
     const description = document.getElementById('description').value;

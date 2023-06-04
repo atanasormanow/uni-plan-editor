@@ -27,11 +27,10 @@ window.onload = () => {
 function handleSubmit(event) {
   event.preventDefault();
 
+  const owner = localStorage.getItem('username');
   const type = document.querySelector('input[name="type"]:checked').value;
   const name = document.getElementById('name').value;
   const department = document.getElementById('department').value;
-  // TODO: owner = logged in user's username
-  const owner = document.getElementById('owner').value;
   const busyness = document.getElementById('busyness').value;
   const credits = document.getElementById('credits').value;
   const description = document.getElementById('description').value;
@@ -80,7 +79,6 @@ function fillForm(editedPlan, allPlans) {
   form.type.value = editedPlan.type;
   form.name.value = editedPlan.name;
   form.department.value = editedPlan.department;
-  form.owner.value = editedPlan.owner;
   form.busyness.value = editedPlan.busyness;
   form.credits.value = editedPlan.credits;
   form.description.value = editedPlan.description;
@@ -110,14 +108,17 @@ function fillForm(editedPlan, allPlans) {
 
 function fillSelect(editedPlan, plans) {
   const dependencies = document.getElementById('dependencies');
+  console.log(editedPlan);
 
   plans.forEach(plan => {
-    const option = document.createElement('option');
-    option.textContent = plan.name;
-    option.value = plan.id;
-    option.selected = editedPlan.dependencies.includes(plan.id);
+    if (editedPlan.planId !== plan.id) {
+      const option = document.createElement('option');
+      option.textContent = plan.name;
+      option.value = plan.id;
+      option.selected = editedPlan.dependencies.includes(plan.id);
 
-    dependencies.appendChild(option);
+      dependencies.appendChild(option);
+    }
   });
 }
 
