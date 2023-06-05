@@ -62,17 +62,18 @@ function displayPlans(plans) {
       const columnApender = addColumn.bind(this, row);
 
       columnApender(plan.name, 'plan-name');
-      columnApender(plan.owner, 'plan-owner');
 
       const deleteCell = document.createElement('td');
       deleteCell.textContent = 'Изтрий';
       deleteCell.style.textDecoration = 'underline';
       deleteCell.style.color = 'blue';
       deleteCell.style.cursor = 'pointer';
+      deleteCell.style.textAlign = 'center';
       deleteCell.addEventListener('click', deletePlan.bind(this, plan));
       row.appendChild(deleteCell);
 
       const editCell = document.createElement('td');
+      editCell.style.textAlign = 'center';
       const editAnchor = document.createElement('a');
       editAnchor.textContent = 'Редактирай';
       editAnchor.href =
@@ -87,6 +88,7 @@ function displayPlans(plans) {
       viewAnchor.href =
         SERVER_CONTROLLERS + 'get_pdf.php?'
         + new URLSearchParams({ id: plan.id });
+      viewCell.style.textAlign = 'center';
       viewCell.appendChild(viewAnchor);
       row.appendChild(viewCell);
 
@@ -95,6 +97,7 @@ function displayPlans(plans) {
       exportCell.style.textDecoration = 'underline';
       exportCell.style.color = 'blue';
       exportCell.style.cursor = 'pointer';
+      exportCell.style.textAlign = 'center';
       exportCell.addEventListener('click', exportJSON.bind(this, plan));
       row.appendChild(exportCell);
 
