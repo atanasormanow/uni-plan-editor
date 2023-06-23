@@ -56,12 +56,11 @@ function displayPlans(plans) {
 
   // TODO: abstract anchor creation under 'td'
   plans.forEach(plan => {
-    // TODO: make an endpoint that returns only the current user's plans
-    if (plan.owner === localStorage.getItem('username')) {
       const row = document.createElement('tr');
       const columnApender = addColumn.bind(this, row);
 
       columnApender(plan.name, 'plan-name');
+      columnApender(plan.owner, 'plan-owner');
 
       const deleteCell = document.createElement('td');
       deleteCell.textContent = 'Изтрий';
@@ -102,7 +101,6 @@ function displayPlans(plans) {
       row.appendChild(exportCell);
 
       plansList.appendChild(row);
-    }
   });
 }
 
