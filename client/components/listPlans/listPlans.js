@@ -128,7 +128,7 @@ function exportJSON(plan) {
     + new URLSearchParams({ id: plan.id })
   )
     .then(response => response.json())
-    .then(data => {
+    .then(({ data }) => {
       const jsonData = JSON.stringify(data);
       const blob = new Blob([jsonData], { type: 'application/json' });
 
