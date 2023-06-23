@@ -126,7 +126,12 @@ function fillSelect(plans) {
   plans.forEach(plan => {
     const option = document.createElement('option');
     option.value = plan.id;
-    option.textContent = plan.name;
+
+    const majors =
+      !plan.target_majors
+        ? ''
+        : ' (' + plan.target_majors.split(',').map(m => FMI_MAJORS_SHORT[m]).join(',') + ')';
+    option.textContent = plan.name + majors;
 
     depSelect.appendChild(option);
   });

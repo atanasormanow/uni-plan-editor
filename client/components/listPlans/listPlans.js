@@ -21,7 +21,6 @@ window.onload = function() {
       fetch(SERVER_CONTROLLERS + 'user_logout.php', { method: 'POST' })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           if (data.status === 'SUCCESS') {
             localStorage.removeItem('username');
             window.location.assign(CLIENT_COMPONENTS + '../index.html');
@@ -29,7 +28,7 @@ window.onload = function() {
             console.error('Failed to logout!?');
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => console.error(error));
     });
 
   fetch(SERVER_CONTROLLERS + 'get_all_plans.php')
@@ -56,51 +55,51 @@ function displayPlans(plans) {
 
   // TODO: abstract anchor creation under 'td'
   plans.forEach(plan => {
-      const row = document.createElement('tr');
-      const columnApender = addColumn.bind(this, row);
+    const row = document.createElement('tr');
+    const columnApender = addColumn.bind(this, row);
 
-      columnApender(plan.name, 'plan-name');
-      columnApender(plan.owner, 'plan-owner');
+    columnApender(plan.name, 'plan-name');
+    columnApender(plan.owner, 'plan-owner');
 
-      const deleteCell = document.createElement('td');
-      deleteCell.textContent = 'Изтрий';
-      deleteCell.style.textDecoration = 'underline';
-      deleteCell.style.color = 'blue';
-      deleteCell.style.cursor = 'pointer';
-      deleteCell.style.textAlign = 'center';
-      deleteCell.addEventListener('click', deletePlan.bind(this, plan));
-      row.appendChild(deleteCell);
+    const deleteCell = document.createElement('td');
+    deleteCell.textContent = 'Изтрий';
+    deleteCell.style.textDecoration = 'underline';
+    deleteCell.style.color = 'blue';
+    deleteCell.style.cursor = 'pointer';
+    deleteCell.style.textAlign = 'center';
+    deleteCell.addEventListener('click', deletePlan.bind(this, plan));
+    row.appendChild(deleteCell);
 
-      const editCell = document.createElement('td');
-      editCell.style.textAlign = 'center';
-      const editAnchor = document.createElement('a');
-      editAnchor.textContent = 'Редактирай';
-      editAnchor.href =
-        CLIENT_COMPONENTS + 'editPlan/editPlan.html?'
-        + new URLSearchParams({ id: plan.id });
-      editCell.appendChild(editAnchor);
-      row.appendChild(editCell);
+    const editCell = document.createElement('td');
+    editCell.style.textAlign = 'center';
+    const editAnchor = document.createElement('a');
+    editAnchor.textContent = 'Редактирай';
+    editAnchor.href =
+      CLIENT_COMPONENTS + 'editPlan/editPlan.html?'
+      + new URLSearchParams({ id: plan.id });
+    editCell.appendChild(editAnchor);
+    row.appendChild(editCell);
 
-      const viewCell = document.createElement('td');
-      const viewAnchor = document.createElement('a');
-      viewAnchor.textContent = 'PDF';
-      viewAnchor.href =
-        SERVER_CONTROLLERS + 'get_pdf.php?'
-        + new URLSearchParams({ id: plan.id });
-      viewCell.style.textAlign = 'center';
-      viewCell.appendChild(viewAnchor);
-      row.appendChild(viewCell);
+    const viewCell = document.createElement('td');
+    const viewAnchor = document.createElement('a');
+    viewAnchor.textContent = 'PDF';
+    viewAnchor.href =
+      SERVER_CONTROLLERS + 'get_pdf.php?'
+      + new URLSearchParams({ id: plan.id });
+    viewCell.style.textAlign = 'center';
+    viewCell.appendChild(viewAnchor);
+    row.appendChild(viewCell);
 
-      const exportCell = document.createElement('td');
-      exportCell.textContent = 'JSON';
-      exportCell.style.textDecoration = 'underline';
-      exportCell.style.color = 'blue';
-      exportCell.style.cursor = 'pointer';
-      exportCell.style.textAlign = 'center';
-      exportCell.addEventListener('click', exportJSON.bind(this, plan));
-      row.appendChild(exportCell);
+    const exportCell = document.createElement('td');
+    exportCell.textContent = 'JSON';
+    exportCell.style.textDecoration = 'underline';
+    exportCell.style.color = 'blue';
+    exportCell.style.cursor = 'pointer';
+    exportCell.style.textAlign = 'center';
+    exportCell.addEventListener('click', exportJSON.bind(this, plan));
+    row.appendChild(exportCell);
 
-      plansList.appendChild(row);
+    plansList.appendChild(row);
   });
 }
 

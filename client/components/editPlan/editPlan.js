@@ -108,12 +108,17 @@ function fillForm(editedPlan, allPlans) {
 
 function fillSelect(editedPlan, plans) {
   const dependencies = document.getElementById('dependencies');
-  console.log(editedPlan);
 
   plans.forEach(plan => {
     if (editedPlan.planId !== plan.id) {
       const option = document.createElement('option');
-      option.textContent = plan.name;
+
+      const majors =
+        !plan.target_majors
+          ? ''
+          : ' (' + plan.target_majors.split(',').map(m => FMI_MAJORS_SHORT[m]).join(',') + ')';
+      option.textContent = plan.name + majors;
+
       option.value = plan.id;
       option.selected = editedPlan.dependencies.includes(plan.id);
 
