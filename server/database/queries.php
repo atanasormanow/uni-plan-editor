@@ -166,7 +166,7 @@ class Queries
     $examSynopsis = $db->real_escape_string($examSynopsis);
     $bibliography = $db->real_escape_string($bibliography);
     $owner = $db->real_escape_string($owner);
-    $targetMajors = implode(',', $targetMajors);
+    $targetMajors = $targetMajors;
 
     $owner = Queries::getUserByUsername($owner);
     if (!$owner) {
