@@ -10,11 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     exit(json_encode(["status" => "ERROR", "message" => "Failed to build dependency graph"]));
   }
 
+  $metadata = "rankdir=LR;\n";
   $labels = labelsFromPartialPlans($plans);
   $edges = depEdges($deps);
-  $dot_output = "digraph {\n" . $labels . $edges . "}";
+  $dot_output = "digraph {\n" . $metadata . $labels . $edges . "}";
 
-  // TODO: use local graphviz library
   file_put_contents("../graph/graph.dot", $dot_output);
   $svgContent = shell_exec("dot -Tsvg ../graph/graph.dot");
 
@@ -38,10 +38,38 @@ function labelsFromPartialPlans($plans)
   foreach ($plans as $row) {
     $id = $row['id'];
     $name = cleanStr($row['name']);
-    $labels .= "{$id} [label=\"{$name}\", shape=\"box\"]\n";
+    $majors_label = majors_readable($row['target_majors']);
+    $labels .= "{$id} [label=\"{$name} {$majors_label}\", shape=\"note\", margin=0.4]\n";
   }
 
   return $labels;
+}
+
+function majors_readable($majors)
+{
+  if ($majors === "") {
+    return "";
+  }
+
+  $replace_map = array(
+    'i'  => 'И',
+    'is' => 'ИС',
+    'kn' => 'КН',
+    'si' => 'СИ',
+    'ad' => 'АД',
+    'm' =>  'М',
+    'pm' => 'ПМ',
+    's' =>  'С',
+    'mi' => 'МИ',
+  );
+
+  $majors_list = explode(",", $majors);
+
+  foreach ($majors_list as &$m) {
+    $m = $replace_map[$m];
+  }
+
+  return "(" . implode(",", $majors_list) . ")";
 }
 
 function cleanStr($string)

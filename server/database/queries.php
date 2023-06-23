@@ -108,7 +108,7 @@ class Queries
     $db = getDatabaseConnection();
 
     $query = "
-    SELECT subject_plans.id, name, username AS owner
+    SELECT subject_plans.id, name, username AS owner, target_majors
     FROM `subject_plans`
     LEFT JOIN `users`
     ON subject_plans.owner = users.id;
